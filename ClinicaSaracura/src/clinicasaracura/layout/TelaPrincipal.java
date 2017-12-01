@@ -10,10 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
-/**
- *
- * @author eliane
- */
 public class TelaPrincipal {
     FrameSistema frame;
     JButton botaoMedicos, botaoClientes, botaoExames, botaoAgendamento;

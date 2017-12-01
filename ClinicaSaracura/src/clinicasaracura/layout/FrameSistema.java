@@ -10,10 +10,6 @@ import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 
-/**
- *
- * @author eliane
- */
 public class FrameSistema extends JFrame{
 
     public FrameSistema(String titulo) throws HeadlessException {

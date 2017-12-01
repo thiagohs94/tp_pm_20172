@@ -6,11 +6,8 @@
 package clinicasaracura;
 
 import clinicasaracura.layout.TelaPrincipal;
+import clinicasaracura.registro.MedicoRegistro;
 
-/**
- *
- * @author eliane
- */
 public class ClinicaSaracura {
 
     /**
@@ -18,7 +15,9 @@ public class ClinicaSaracura {
      */
     public static void main(String[] args) {
         TelaPrincipal tela = new TelaPrincipal();
-
+        MedicoRegistro reg = new MedicoRegistro();
+        
+        reg.getListaMedicos();
     }
     
 }
