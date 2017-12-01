@@ -7,6 +7,7 @@ package clinicasaracura;
 
 import clinicasaracura.layout.TelaPrincipal;
 import clinicasaracura.registro.MedicoRegistro;
+import clinicasaracura.registro.ExamesRegistro;
 
 public class ClinicaSaracura {
 
@@ -16,7 +17,9 @@ public class ClinicaSaracura {
     public static void main(String[] args) {
         TelaPrincipal tela = new TelaPrincipal();
         MedicoRegistro reg = new MedicoRegistro();
+        ExamesRegistro exam = new ExamesRegistro();
         
+        exam.getListaRegistros();
         reg.getListaMedicos();
     }
     
