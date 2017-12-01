@@ -5,6 +5,8 @@
  */
 package clinicasaracura;
 
+import clinicasaracura.layout.TelaPrincipal;
+
 /**
  *
  * @author eliane
@@ -15,7 +17,8 @@ public class ClinicaSaracura {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        TelaPrincipal tela = new TelaPrincipal();
+
     }
     
 }
