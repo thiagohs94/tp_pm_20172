@@ -86,7 +86,7 @@ public class Cliente {
     @Override
     public String toString() {
         return "\nId: " + id + "\nNome: " + nome + "\nIdentidade: " + identidade +
-            "\nCPF: " + cpf + "Endereco: " + endereco + "\nTelefone: " + telefone +
+            "\nCPF: " + cpf + "\nEndereco: " + endereco + "\nTelefone: " + telefone +
             "\nData de Nascimento: " + dataNascimento;
     }
     

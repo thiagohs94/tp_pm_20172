@@ -59,6 +59,10 @@ public class TelaPrincipal {
         regClientes.salvar(cliente);
     }
     
+    public int proxIdCliente(){
+        return (regClientes.getQuantidade() +1);
+    }
+    
     private void setarAcoesBotoes(){
         botaoMedicos.addActionListener(new ActionListener() {
             @Override
@@ -74,7 +78,7 @@ public class TelaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                                 JOptionPane.showMessageDialog(null,
-                    regClientes.toString(),
+                    regExames.toString(),
                     "Clínica Saracura - Lista de Exames",
                     JOptionPane.PLAIN_MESSAGE);
             }

@@ -63,6 +63,6 @@ public class Exames {
 
     @Override
     public String toString() {
-        return "Id: " + id + "\nMédico=" + medico + "\nEspecialidade:" + especialidade + "\nData: " + data + "\nHorario=" + horario;
+        return "Id: " + id + "\nMédico:" + medico + "\nEspecialidade:" + especialidade + "\nData: " + data + "\nHorario:" + horario;
     }
 }

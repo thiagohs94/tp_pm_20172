@@ -141,7 +141,7 @@ public class TelaCadastroCliente {
     }
     
     private void atualizarCamposCliente(){
-        cliente.setId(0);
+        cliente.setId(telaPrincipal.proxIdCliente());
         cliente.setNome(txtNome.getText());
         cliente.setIdentidade(txtIdentidade.getText());
         cliente.setCpf(txtCpf.getText());
