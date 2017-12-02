@@ -8,11 +8,15 @@ package clinicasaracura.registro;
 import clinicasaracura.modelo.Cliente;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class ClienteRegistro extends Registro {
     Scanner entrada;
-
+    Formatter saida;
+    
     public ClienteRegistro() {
         super();
     }           
@@ -42,9 +46,33 @@ public class ClienteRegistro extends Registro {
             cliente.setTelefone(tmpCampos[5]);
             cliente.setDataNascimento(tmpCampos[6]);
             
-            adicionar(cliente);
+            adicionarNaLista(cliente);
         }
         
         entrada.close();
+    }
+
+    public void salvar(Cliente cliente){
+        try{
+            FileWriter fileWriter = new FileWriter("arquivos/clientes", true);
+            saida = new Formatter(fileWriter); 
+            
+            saida.format("%s;%s;%s;%s;%s;%s;%s\n",
+                String.valueOf(cliente.getId()),
+                cliente.getNome(),
+                cliente.getIdentidade(),
+                cliente.getCpf(),
+                cliente.getEndereco(),
+                cliente.getTelefone(),
+                cliente.getDataNascimento());
+            
+            saida.close();
+        }
+        catch(IOException ex){
+            System.err.println("Não é possível salvar cliente");
+            System.exit(1);
+        }
+        
+        lerArquivo();
     }
 }

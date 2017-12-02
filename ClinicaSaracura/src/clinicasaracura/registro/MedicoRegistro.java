@@ -39,7 +39,7 @@ public class MedicoRegistro extends Registro {
             medico.setNome(tmpCampos[1]);
             medico.setEspecialidade(tmpCampos[2]);
             
-            adicionar(medico);
+            adicionarNaLista(medico);
         }
         
         entrada.close();

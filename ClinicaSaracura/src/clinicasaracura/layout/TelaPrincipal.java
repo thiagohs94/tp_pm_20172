@@ -5,6 +5,7 @@
  */
 package clinicasaracura.layout;
 
+import clinicasaracura.modelo.Cliente;
 import clinicasaracura.registro.ClienteRegistro;
 import clinicasaracura.registro.ExamesRegistro;
 import clinicasaracura.registro.MedicoRegistro;
@@ -16,7 +17,7 @@ import javax.swing.JOptionPane;
 
 public class TelaPrincipal {
     FrameSistema frame;
-    JButton botaoMedicos, botaoClientes, botaoExames, botaoAgendamento;
+    JButton botaoMedicos, botaoClientes, botaoExames, botaoAdicionarCliente, botaoAgendamento;
     MedicoRegistro regMedicos;
     ClienteRegistro regClientes;
     ExamesRegistro regExames;
@@ -32,11 +33,13 @@ public class TelaPrincipal {
         botaoMedicos = new JButton("Médicos");
         botaoClientes = new JButton("Clientes");
         botaoExames = new JButton("Exames");
+        botaoAdicionarCliente = new JButton("Adicionar Cliente");
         botaoAgendamento = new JButton("Agendamento");
         
         frame.add(botaoMedicos);
         frame.add(botaoClientes);
         frame.add(botaoExames);
+        frame.add(botaoAdicionarCliente);
         frame.add(botaoAgendamento);
         
         setarAcoesBotoes();
@@ -44,13 +47,35 @@ public class TelaPrincipal {
         frame.setVisible(true);
     }  
     
-    public void setarAcoesBotoes(){
+    public void exibirCadastroCliente(){
+        TelaCadastroCliente tela = new TelaCadastroCliente(this);
+    }
+    
+    public void habilitar(){
+        frame.setEnabled(true);
+    }
+    
+    public void salvarCliente(Cliente cliente){
+        regClientes.salvar(cliente);
+    }
+    
+    private void setarAcoesBotoes(){
         botaoMedicos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,
                     regMedicos.toString(),
                     "Clínica Saracura - Lista de Médicos",
+                    JOptionPane.PLAIN_MESSAGE);
+            }
+        });
+        
+        botaoExames.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                                JOptionPane.showMessageDialog(null,
+                    regClientes.toString(),
+                    "Clínica Saracura - Lista de Exames",
                     JOptionPane.PLAIN_MESSAGE);
             }
         });
@@ -65,13 +90,11 @@ public class TelaPrincipal {
             }
         });
         
-        botaoExames.addActionListener(new ActionListener() {
+        botaoAdicionarCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                                JOptionPane.showMessageDialog(null,
-                    regClientes.toString(),
-                    "Clínica Saracura - Lista de Exames",
-                    JOptionPane.PLAIN_MESSAGE);
+                frame.setEnabled(false);
+                exibirCadastroCliente();
             }
         });
         

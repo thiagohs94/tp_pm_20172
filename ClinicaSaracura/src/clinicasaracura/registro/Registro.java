@@ -16,8 +16,8 @@ public abstract class Registro<T> {
     }    
     
     protected abstract void lerArquivo();
-    
-    public void adicionar(T objeto){
+        
+    public void adicionarNaLista(T objeto){
         lista.add(objeto);
     }
     

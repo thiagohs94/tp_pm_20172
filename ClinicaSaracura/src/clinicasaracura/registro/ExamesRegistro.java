@@ -42,7 +42,7 @@ public class ExamesRegistro extends Registro {
             exame.setData(tmpCampos[3]);
             exame.setHorario(tmpCampos[4]);
 
-            adicionar(exame);
+            adicionarNaLista(exame);
         }
         
         entrada.close();
