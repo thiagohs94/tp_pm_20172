@@ -5,19 +5,29 @@
  */
 package clinicasaracura.layout;
 
+import clinicasaracura.registro.ClienteRegistro;
+import clinicasaracura.registro.ExamesRegistro;
+import clinicasaracura.registro.MedicoRegistro;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class TelaPrincipal {
     FrameSistema frame;
     JButton botaoMedicos, botaoClientes, botaoExames, botaoAgendamento;
+    MedicoRegistro regMedicos;
+    ClienteRegistro regClientes;
+    ExamesRegistro regExames;
 
     public TelaPrincipal() {
+        regMedicos = new MedicoRegistro();
+        regClientes = new ClienteRegistro();
+        regExames = new ExamesRegistro();
+        
         frame = new FrameSistema("Clínica Saracura");
         frame.setLayout(new FlowLayout());
-        
         
         botaoMedicos = new JButton("Médicos");
         botaoClientes = new JButton("Clientes");
@@ -38,21 +48,30 @@ public class TelaPrincipal {
         botaoMedicos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                JOptionPane.showMessageDialog(null,
+                    regMedicos.toString(),
+                    "Clínica Saracura - Lista de Médicos",
+                    JOptionPane.PLAIN_MESSAGE);
             }
         });
         
         botaoClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                JOptionPane.showMessageDialog(null,
+                    regClientes.toString(),
+                    "Clínica Saracura - Lista de Clientes",
+                    JOptionPane.PLAIN_MESSAGE);
             }
         });
         
         botaoExames.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                                JOptionPane.showMessageDialog(null,
+                    regClientes.toString(),
+                    "Clínica Saracura - Lista de Exames",
+                    JOptionPane.PLAIN_MESSAGE);
             }
         });
         

@@ -20,7 +20,6 @@ public class ClinicaSaracura {
         ExamesRegistro exam = new ExamesRegistro();
         
         exam.getListaRegistros();
-        reg.getListaMedicos();
     }
     
 }

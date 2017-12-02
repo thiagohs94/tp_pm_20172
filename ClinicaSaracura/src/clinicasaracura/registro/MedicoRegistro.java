@@ -8,18 +8,17 @@ package clinicasaracura.registro;
 import clinicasaracura.modelo.Medico;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MedicoRegistro {
-    ArrayList<Medico> listaMedicos;
+public class MedicoRegistro extends Registro {
     Scanner entrada;
 
     public MedicoRegistro() {
-        listaMedicos = new ArrayList<>();
+        super();
     }           
     
-    private void lerArquivo(){
+    @Override
+    protected void lerArquivo(){
         String tmpLinha;
         String[] tmpCampos;
         
@@ -33,22 +32,17 @@ public class MedicoRegistro {
         
         while(entrada.hasNext()){
             tmpLinha = entrada.nextLine();
-            tmpCampos = tmpLinha.split(",");
+            tmpCampos = tmpLinha.split(";");
             
             Medico medico = new Medico();
             medico.setId(Integer.parseInt(tmpCampos[0]));
             medico.setNome(tmpCampos[1]);
             medico.setEspecialidade(tmpCampos[2]);
             
-            listaMedicos.add(medico);
+            adicionar(medico);
         }
         
         entrada.close();
-    }
-
-    public ArrayList<Medico> getListaMedicos() {
-        lerArquivo();
-        return listaMedicos;
     }
 }
 

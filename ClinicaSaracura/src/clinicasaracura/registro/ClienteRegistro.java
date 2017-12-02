@@ -5,29 +5,27 @@
  */
 package clinicasaracura.registro;
 
-import clinicasaracura.modelo.Exames;
+import clinicasaracura.modelo.Cliente;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-
-public class ExamesRegistro extends Registro {
+public class ClienteRegistro extends Registro {
     Scanner entrada;
 
-    public ExamesRegistro() {
+    public ClienteRegistro() {
         super();
     }           
     
-    @Override
     protected void lerArquivo(){
         String tmpLinha;
         String[] tmpCampos;
         
         try{
-            entrada = new Scanner(new File("arquivos/exames"));
+            entrada = new Scanner(new File("arquivos/clientes"));
         }
         catch(FileNotFoundException ex){
-            System.err.println("Arquivo de médicos não encontrado");
+            System.err.println("Arquivo de clientes não encontrado");
             System.exit(1);
         }
         
@@ -35,14 +33,16 @@ public class ExamesRegistro extends Registro {
             tmpLinha = entrada.nextLine();
             tmpCampos = tmpLinha.split(";");
             
-            Exames exame = new Exames();
-            exame.setId(Integer.parseInt(tmpCampos[0]));
-            exame.setMedico(tmpCampos[1]);
-            exame.setEspecialidade(tmpCampos[2]);
-            exame.setData(tmpCampos[3]);
-            exame.setHorario(tmpCampos[4]);
-
-            adicionar(exame);
+            Cliente cliente = new Cliente();
+            cliente.setId(Integer.parseInt(tmpCampos[0]));
+            cliente.setNome(tmpCampos[1]);
+            cliente.setIdentidade(tmpCampos[2]);
+            cliente.setCpf(tmpCampos[3]);
+            cliente.setEndereco(tmpCampos[4]);
+            cliente.setTelefone(tmpCampos[5]);
+            cliente.setDataNascimento(tmpCampos[6]);
+            
+            adicionar(cliente);
         }
         
         entrada.close();

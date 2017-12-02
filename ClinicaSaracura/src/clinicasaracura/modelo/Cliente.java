@@ -6,14 +6,19 @@
 package clinicasaracura.modelo;
 
 public class Cliente {
+    private int id;
     private String nome;
-    private int identidade;
-    private int cpf;
+    private String identidade;
+    private String cpf;
     private String endereco;
     private String telefone;
     private String dataNascimento;
 
-    public Cliente(String nome, int identidade, int cpf, String endereco, String telefone, String dataNascimento) {
+    public Cliente() {
+    }
+
+    public Cliente(int id, String nome, String identidade, String cpf, String endereco, String telefone, String dataNascimento) {
+        this.id = id;
         this.nome = nome;
         this.identidade = identidade;
         this.cpf = cpf;
@@ -22,6 +27,14 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNome() {
         return nome;
     }
@@ -30,19 +43,19 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public int getIdentidade() {
+    public String getIdentidade() {
         return identidade;
     }
 
-    public void setIdentidade(int identidade) {
+    public void setIdentidade(String identidade) {
         this.identidade = identidade;
     }
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
@@ -69,4 +82,13 @@ public class Cliente {
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+    @Override
+    public String toString() {
+        return "\nId: " + id + "\nNome: " + nome + "\nIdentidade: " + identidade +
+            "\nCPF: " + cpf + "Endereco: " + endereco + "\nTelefone: " + telefone +
+            "\nData de Nascimento: " + dataNascimento;
+    }
+    
+    
 }
