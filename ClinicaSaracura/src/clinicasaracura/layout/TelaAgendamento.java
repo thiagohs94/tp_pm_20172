@@ -6,40 +6,35 @@
 package clinicasaracura.layout;
 
  
+import clinicasaracura.modelo.Cliente;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class TelaAgendamento {
-    
-    private String Teste;
-    
+public class TelaAgendamento {    
     private FrameSistema frame;
     TelaPrincipal telaPrincipal;
     
+    private ArrayList<Cliente> lstCliente;
+    private PainelClienteAgendamento pnlCliente;
+    
     private GroupLayout layout;
     private JPanel pnlCampos;
-    
     private JLabel lblTitulo;
     
+    private JButton btnCancelar, btnConfirmar;    
     
-    private JButton btnCancelar, btnConfirmar;
-
     
-    public TelaAgendamento(TelaPrincipal telaPrincipal){
-        this();
+    public TelaAgendamento(TelaPrincipal telaPrincipal, ArrayList<Cliente> lstCliente) {
         this.telaPrincipal = telaPrincipal;
-    }
-    
-    
-    
-    public TelaAgendamento() {
-        
+        this.lstCliente = lstCliente;
          
         frame = new FrameSistema("Clínica Saracura - Agendamento de Exames");
         frame.setLayout(new GridBagLayout());
@@ -54,6 +49,10 @@ public class TelaAgendamento {
         
         btnCancelar = new JButton("Cancelar");
         btnConfirmar = new JButton("Continuar");
+        
+        pnlCliente = new PainelClienteAgendamento(lstCliente);
+
+        
         
         layout.setHorizontalGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -77,8 +76,9 @@ public class TelaAgendamento {
         
         setarAcoesBotoes();
         
+        frame.add(pnlCliente);
         frame.add(pnlCampos);
-        frame.pack();
+        //frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

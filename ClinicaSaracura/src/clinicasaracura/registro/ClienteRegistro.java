@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Scanner;
 
@@ -76,5 +77,15 @@ public class ClienteRegistro extends Registro {
             System.err.println("Não é possível salvar cliente");
             System.exit(1);
         }
+    }
+    
+    public ArrayList<Cliente> buscarPorNome(String nome){
+        ArrayList<Cliente> result = new ArrayList();
+        for(int i=0;i<lista.size();i++){
+            if(((Cliente)lista.get(i)).getNome().contains(nome)){
+                result.add((Cliente)lista.get(i));
+            }
+        }
+        return result;
     }
 }

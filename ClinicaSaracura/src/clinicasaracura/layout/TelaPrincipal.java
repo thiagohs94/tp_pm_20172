@@ -80,7 +80,7 @@ public class TelaPrincipal {
     }
     
     public void exibirAgendamento(){
-        TelaAgendamento tela = new TelaAgendamento(this);
+        TelaAgendamento tela = new TelaAgendamento(this, regClientes.getListaRegistros());
     }
     
     public void habilitar(){
