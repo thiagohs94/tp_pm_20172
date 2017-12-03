@@ -25,6 +25,10 @@ public abstract class Registro<T> {
         return lista.size();
     }
     
+    public void limparLista(){
+        lista.clear();
+    }
+    
     public ArrayList<T> getListaRegistros() {
         lerArquivo();
         return lista;

@@ -33,6 +33,8 @@ public class ClienteRegistro extends Registro {
             System.exit(1);
         }
         
+        limparLista();
+        
         while(entrada.hasNext()){
             tmpLinha = entrada.nextLine();
             tmpCampos = tmpLinha.split(";");
@@ -67,12 +69,12 @@ public class ClienteRegistro extends Registro {
                 cliente.getDataNascimento());
             
             saida.close();
+            
+            adicionarNaLista(cliente);
         }
         catch(IOException ex){
             System.err.println("Não é possível salvar cliente");
             System.exit(1);
         }
-        
-        lerArquivo();
     }
 }

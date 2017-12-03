@@ -124,6 +124,7 @@ public class TelaPrincipal {
         botaoClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                texAreaClientes.setText(regClientes.toString());
                 JOptionPane.showMessageDialog(null,
                     scrollClientes,
                     "Clínica Saracura - Lista de Clientes",
