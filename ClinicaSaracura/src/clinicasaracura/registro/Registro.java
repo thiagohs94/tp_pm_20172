@@ -29,7 +29,7 @@ public abstract class Registro<T> {
         lerArquivo();
         return lista;
     }
-            
+    
     @Override
     public String toString() {
         String retorno = "";
