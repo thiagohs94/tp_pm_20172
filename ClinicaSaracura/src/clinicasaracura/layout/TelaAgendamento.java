@@ -7,10 +7,14 @@ package clinicasaracura.layout;
 
  
 import clinicasaracura.modelo.Cliente;
+import clinicasaracura.modelo.Especialidade;
+import clinicasaracura.modelo.Exame;
 import clinicasaracura.modelo.Medico;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -27,8 +31,11 @@ public class TelaAgendamento {
     
     private ArrayList<Cliente> lstCliente;
     private ArrayList<Medico> lstMedicos;
+    private ArrayList<Exame> lstExames;
+    private ArrayList<Especialidade> lstEspecialidades;
     private PainelClienteAgendamento pnlCliente;
-    private PainelMedicoAgendamento pnlMedico;
+    private PainelMedicoAtendimento pnlMedico;
+    private PainelExameAtendimento pnlExame;
     
     private GroupLayout layout;
     private JPanel pnlCampos;
@@ -42,10 +49,17 @@ public class TelaAgendamento {
     private JButton btnCancelar, btnConfirmar;    
     
     
-    public TelaAgendamento(TelaPrincipal telaPrincipal, ArrayList<Cliente> lstCliente, ArrayList<Medico> lstMedicos) {
+    public TelaAgendamento(TelaPrincipal telaPrincipal,
+        ArrayList<Cliente> lstCliente,
+        ArrayList<Medico> lstMedicos,
+        ArrayList<Exame> lstExames,
+        ArrayList<Especialidade> lstEspecialidades) {
+        
         this.telaPrincipal = telaPrincipal;
         this.lstCliente = lstCliente;
         this.lstMedicos = lstMedicos;
+        this.lstExames = lstExames;
+        this.lstEspecialidades = lstEspecialidades;
          
         frame = new FrameSistema("Clínica Saracura - Agendamento de Exames");
         frame.setLayout(new GridBagLayout());
@@ -64,7 +78,8 @@ public class TelaAgendamento {
         btnConfirmar = new JButton("Continuar");
         
         pnlCliente = new PainelClienteAgendamento(this, lstCliente);
-        pnlMedico = new PainelMedicoAgendamento(this, lstMedicos);
+        pnlMedico = new PainelMedicoAtendimento(this, lstMedicos, lstEspecialidades);
+        pnlExame = new PainelExameAtendimento(this, lstExames);
         
         pnlAtendimento = new JPanel();
         pnlAtendimento.setBorder(BorderFactory.createTitledBorder("Atendimento"));
@@ -77,10 +92,48 @@ public class TelaAgendamento {
         groupAtendimento.add(rbConsulta);
         groupAtendimento.add(rbExame);
         
+        GroupLayout layout = new GroupLayout(pnlAtendimento);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        pnlAtendimento.setLayout(layout);
+        
+        layout.setHorizontalGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAtendimento)
+                            .addComponent(rbConsulta)
+                            .addComponent(rbExame)))
+                        .addComponent(pnlMedico)
+                        .addComponent(pnlExame)
+                    )
+                )
+            )
+        );
+ 
+        layout.setVerticalGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(lblAtendimento)
+                    .addComponent(rbConsulta)
+                    .addComponent(rbExame)
+                )
+            )   
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(pnlMedico))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(pnlExame))
+        );
+        
         pnlAtendimento.add(lblAtendimento);
         pnlAtendimento.add(rbConsulta);
         pnlAtendimento.add(rbExame);
         pnlAtendimento.add(pnlMedico);
+        pnlAtendimento.add(pnlExame);
+        
+        pnlExame.setVisible(false);
         
         /*layout.setHorizontalGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -102,6 +155,7 @@ public class TelaAgendamento {
                 .addComponent(btnConfirmar))
         );*/
         
+        setarAcaoRadio();
         setarAcoesBotoes();
         
         frame.add(pnlCliente);
@@ -113,6 +167,21 @@ public class TelaAgendamento {
         frame.setVisible(true);
     }
     
+    private void setarAcaoRadio(){
+        rbConsulta.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                alterarTipoAtendimento();
+            }
+        });
+        
+        rbExame.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                alterarTipoAtendimento();
+            }
+        });
+    }
     
     private void setarAcoesBotoes(){
         btnCancelar.addActionListener(new ActionListener() {
@@ -132,6 +201,17 @@ public class TelaAgendamento {
         });
     }
     
+    private void alterarTipoAtendimento(){
+        if(rbConsulta.isSelected()){
+            pnlMedico.setVisible(true);
+            pnlExame.setVisible(false);
+        }
+        else{
+            pnlMedico.setVisible(false);
+            pnlExame.setVisible(true);
+        }
+    }
+    
     private void destruir(){
         frame.dispose();
     }
@@ -144,6 +224,10 @@ public class TelaAgendamento {
         return telaPrincipal.regMedicos.buscarPorNome(nome);
     }
     
+    public ArrayList<clinicasaracura.modelo.Exame> buscarExame(String nome){
+        return telaPrincipal.regExame.buscarPorNome(nome);
+    }
+    
     public void adicionarNovoCliente(){
         telaPrincipal.exibirCadastroCliente();
     }
@@ -153,6 +237,10 @@ public class TelaAgendamento {
     }
     
     public void confirmarMedico(){
+        
+    }
+    
+    public void confirmarExame(){
         
     }
     

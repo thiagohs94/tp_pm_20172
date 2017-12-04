@@ -31,6 +31,7 @@ public class EspecialidadeRegistro extends Registro {
             System.exit(1);
         }
         
+        limparLista();
         while(entrada.hasNext()){
             tmpLinha = entrada.nextLine();
             tmpCampos = tmpLinha.split(";");

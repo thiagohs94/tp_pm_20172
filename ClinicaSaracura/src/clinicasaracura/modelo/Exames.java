@@ -6,6 +6,7 @@
 package clinicasaracura.modelo;
 
 public class Exames {
+    //TODO - alterar nome desta classe
     
     private int id;
     private String medico;

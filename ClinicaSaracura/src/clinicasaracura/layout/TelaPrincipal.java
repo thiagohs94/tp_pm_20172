@@ -10,6 +10,7 @@ import clinicasaracura.registro.ClienteRegistro;
 import clinicasaracura.registro.ExamesRegistro;
 import clinicasaracura.registro.MedicoRegistro;
 import clinicasaracura.registro.EspecialidadeRegistro;
+import clinicasaracura.registro.ExameRegistro;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -29,12 +30,14 @@ public class TelaPrincipal {
     MedicoRegistro regMedicos;
     ClienteRegistro regClientes;
     ExamesRegistro regExames;
+    ExameRegistro regExame;
     EspecialidadeRegistro regEspecialidade;
 
     public TelaPrincipal() {
         regMedicos = new MedicoRegistro();
         regClientes = new ClienteRegistro();
         regExames = new ExamesRegistro();
+        regExame = new ExameRegistro();
         regEspecialidade = new EspecialidadeRegistro();
         
         frame = new FrameSistema("Clínica Saracura");
@@ -82,7 +85,9 @@ public class TelaPrincipal {
     public void exibirAgendamento(){
         TelaAgendamento tela = new TelaAgendamento(this,
             regClientes.getListaRegistros(),
-            regMedicos.getListaRegistros());
+            regMedicos.getListaRegistros(),
+            regExame.getListaRegistros(),
+            regEspecialidade.getListaRegistros());
     }
     
     public void habilitar(){

@@ -5,6 +5,7 @@
  */
 package clinicasaracura.layout;
 
+import clinicasaracura.modelo.Especialidade;
 import clinicasaracura.modelo.Medico;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -18,6 +19,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -28,12 +30,12 @@ import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class PainelMedicoAgendamento extends JPanel{
+public class PainelMedicoAtendimento extends JPanel{
     private TelaAgendamento telaPai;
-    private JTextField txtNomeMedico;
+    private JComboBox cbEspecialidadeMedico;
     private JButton btnBuscarMedico;
     private JButton btnConfirmarMedico;
-    private JLabel lblNomeMedico;
+    private JLabel lblNomeEspecialidade;
     private JLabel lblSelecionarMedico;
     private JLabel lblNenhumResultado;
     private JTextArea txtInfoMedico;
@@ -41,11 +43,16 @@ public class PainelMedicoAgendamento extends JPanel{
     private JPanel pnlBusca;
     private JPanel pnlBotoes;
     private ArrayList<Medico> arrayMedicos;
+    private ArrayList<Especialidade> arrayEspecialidades;
     
-    public PainelMedicoAgendamento(TelaAgendamento telaPai, ArrayList<Medico> arrayMedicos) {
+    public PainelMedicoAtendimento(TelaAgendamento telaPai,
+        ArrayList<Medico> arrayMedicos,
+        ArrayList<Especialidade> arrayEspecialidades) {
         super();
         this.arrayMedicos = arrayMedicos;
+        this.arrayEspecialidades = arrayEspecialidades;
         this.telaPai = telaPai;
+        
         
         GroupLayout layout = new GroupLayout(this);
         layout.setAutoCreateGaps(true);
@@ -53,8 +60,8 @@ public class PainelMedicoAgendamento extends JPanel{
         setBorder(BorderFactory.createTitledBorder("Médico")); 
         setLayout(layout);
         
-        txtNomeMedico = new JTextField(20);
-        lblNomeMedico = new JLabel("Nome:");
+        
+        lblNomeEspecialidade = new JLabel("Especialidade:");
         lblSelecionarMedico = new JLabel("Selecione um médico para realizar um agendamento:");
         lblNenhumResultado = new JLabel("Nenhum resultado encontrado");
         txtInfoMedico = new JTextArea();
@@ -64,13 +71,13 @@ public class PainelMedicoAgendamento extends JPanel{
         lblNenhumResultado.setVisible(false);
         
 
-        
+        configurarComboBoxEspecialidades();
         configurarListaMedicos();
         setarAcoesBotoes();
         
         pnlBusca = new JPanel();
-        pnlBusca.add(lblNomeMedico);
-        pnlBusca.add(txtNomeMedico);
+        pnlBusca.add(lblNomeEspecialidade);
+        pnlBusca.add(cbEspecialidadeMedico);
         pnlBusca.add(btnBuscarMedico);
         
         pnlBotoes = new JPanel();
@@ -114,6 +121,21 @@ public class PainelMedicoAgendamento extends JPanel{
         add(pnlBotoes);
     }
     
+    private void configurarComboBoxEspecialidades(){
+        cbEspecialidadeMedico = new JComboBox(new Vector<Especialidade> (arrayEspecialidades));
+        cbEspecialidadeMedico.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (renderer instanceof JLabel && value instanceof Especialidade) {
+                    ((JLabel) renderer).setText(((Especialidade) value).getEspecialidade());
+                }
+                return renderer;
+            }
+        });
+        
+    }
+    
     private void configurarListaMedicos(){
         lstMedicos = new JList(new Vector<Medico>(arrayMedicos));
         lstMedicos.setVisibleRowCount(10);
@@ -140,7 +162,7 @@ public class PainelMedicoAgendamento extends JPanel{
         btnBuscarMedico.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Medico> result = 
+                /*ArrayList<Medico> result = 
                     telaPai.buscarMedico(txtNomeMedico.getText());
                 if(result.isEmpty()){
                     lblNenhumResultado.setVisible(true);
@@ -151,7 +173,7 @@ public class PainelMedicoAgendamento extends JPanel{
                     lstMedicos.setListData(new Vector<Medico>(arrayMedicos));
                     lblNenhumResultado.setVisible(false);
                     lstMedicos.setVisible(true);
-                }
+                } */
             }
         });
         

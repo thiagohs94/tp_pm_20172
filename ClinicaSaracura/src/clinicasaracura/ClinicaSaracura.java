@@ -17,10 +17,11 @@ public class ClinicaSaracura {
      */
     public static void main(String[] args) {
         TelaPrincipal tela = new TelaPrincipal();
-        MedicoRegistro reg = new MedicoRegistro();
-        ExamesRegistro exam = new ExamesRegistro();
+        //MedicoRegistro reg = new MedicoRegistro();
+        //ExamesRegistro exam = new ExamesRegistro();
         
-        exam.getListaRegistros();
+        //System.out.println(reg.toString());
+        //exam.getListaRegistros();
         
         //TelaCadastroCliente tela = new TelaCadastroCliente();
     }

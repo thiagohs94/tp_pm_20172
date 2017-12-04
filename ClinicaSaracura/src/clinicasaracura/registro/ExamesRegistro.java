@@ -24,13 +24,14 @@ public class ExamesRegistro extends Registro {
         String[] tmpCampos;
         
         try{
-            entrada = new Scanner(new File("arquivos/exames"));
+            entrada = new Scanner(new File("arquivos/agendamento_exames"));
         }
         catch(FileNotFoundException ex){
             System.err.println("Arquivo de médicos não encontrado");
             System.exit(1);
         }
         
+        limparLista();
         while(entrada.hasNext()){
             tmpLinha = entrada.nextLine();
             tmpCampos = tmpLinha.split(";");
