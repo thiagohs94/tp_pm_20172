@@ -8,6 +8,7 @@ package clinicasaracura.registro;
 import clinicasaracura.modelo.Medico;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MedicoRegistro extends Registro {
@@ -43,6 +44,16 @@ public class MedicoRegistro extends Registro {
         }
         
         entrada.close();
+    }
+    
+    public ArrayList<Medico> buscarPorNome(String nome){
+        ArrayList<Medico> result = new ArrayList();
+        for(int i=0;i<lista.size();i++){
+            if(((Medico)lista.get(i)).getNome().contains(nome)){
+                result.add((Medico)lista.get(i));
+            }
+        }
+        return result;
     }
 }
 

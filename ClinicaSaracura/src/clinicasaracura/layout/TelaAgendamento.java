@@ -7,15 +7,18 @@ package clinicasaracura.layout;
 
  
 import clinicasaracura.modelo.Cliente;
+import clinicasaracura.modelo.Medico;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class TelaAgendamento {    
@@ -23,38 +26,63 @@ public class TelaAgendamento {
     TelaPrincipal telaPrincipal;
     
     private ArrayList<Cliente> lstCliente;
+    private ArrayList<Medico> lstMedicos;
     private PainelClienteAgendamento pnlCliente;
+    private PainelMedicoAgendamento pnlMedico;
     
     private GroupLayout layout;
     private JPanel pnlCampos;
     private JLabel lblTitulo;
     
+    private JPanel pnlAtendimento;
+    private JLabel lblAtendimento;
+    private ButtonGroup groupAtendimento;
+    private JRadioButton rbConsulta, rbExame;
+    
     private JButton btnCancelar, btnConfirmar;    
     
     
-    public TelaAgendamento(TelaPrincipal telaPrincipal, ArrayList<Cliente> lstCliente) {
+    public TelaAgendamento(TelaPrincipal telaPrincipal, ArrayList<Cliente> lstCliente, ArrayList<Medico> lstMedicos) {
         this.telaPrincipal = telaPrincipal;
         this.lstCliente = lstCliente;
+        this.lstMedicos = lstMedicos;
          
         frame = new FrameSistema("Clínica Saracura - Agendamento de Exames");
         frame.setLayout(new GridBagLayout());
-        pnlCampos = new JPanel();
+        //pnlCampos = new JPanel();
         
-        layout = new GroupLayout(pnlCampos);
+        /*layout = new GroupLayout(pnlCampos);
         layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-        pnlCampos.setLayout(layout);
+        layout.setAutoCreateContainerGaps(true);*/
+        //pnlCampos.setLayout(layout);
         
-        lblTitulo = new JLabel("Excolha sua especialidade:");
+        
+        
+        lblTitulo = new JLabel("Escolha sua especialidade:");
         
         btnCancelar = new JButton("Cancelar");
         btnConfirmar = new JButton("Continuar");
         
-        pnlCliente = new PainelClienteAgendamento(lstCliente);
-
+        pnlCliente = new PainelClienteAgendamento(this, lstCliente);
+        pnlMedico = new PainelMedicoAgendamento(this, lstMedicos);
         
+        pnlAtendimento = new JPanel();
+        pnlAtendimento.setBorder(BorderFactory.createTitledBorder("Atendimento"));
+        lblAtendimento = new JLabel("Escolha o tipo de atendimento: ");
+        rbConsulta = new JRadioButton("Consulta");
+        rbExame = new JRadioButton("Exame");
+        rbConsulta.setSelected(true);
         
-        layout.setHorizontalGroup(layout.createSequentialGroup()
+        groupAtendimento = new ButtonGroup();
+        groupAtendimento.add(rbConsulta);
+        groupAtendimento.add(rbExame);
+        
+        pnlAtendimento.add(lblAtendimento);
+        pnlAtendimento.add(rbConsulta);
+        pnlAtendimento.add(rbExame);
+        pnlAtendimento.add(pnlMedico);
+        
+        /*layout.setHorizontalGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(lblTitulo)
@@ -72,12 +100,14 @@ public class TelaAgendamento {
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(btnCancelar)
                 .addComponent(btnConfirmar))
-        );
+        );*/
         
         setarAcoesBotoes();
         
         frame.add(pnlCliente);
-        frame.add(pnlCampos);
+        frame.add(pnlAtendimento);
+
+        //frame.add(pnlCampos);
         //frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -106,6 +136,24 @@ public class TelaAgendamento {
         frame.dispose();
     }
     
+    public ArrayList<Cliente> buscarCliente(String nome){
+        return telaPrincipal.regClientes.buscarPorNome(nome);
+    }
     
+    public ArrayList<Medico> buscarMedico(String nome){
+        return telaPrincipal.regMedicos.buscarPorNome(nome);
+    }
+    
+    public void adicionarNovoCliente(){
+        telaPrincipal.exibirCadastroCliente();
+    }
+    
+    public void confirmarCliente(){
+        
+    }
+    
+    public void confirmarMedico(){
+        
+    }
     
 }
