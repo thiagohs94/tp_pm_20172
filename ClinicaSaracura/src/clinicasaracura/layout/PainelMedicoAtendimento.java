@@ -128,7 +128,7 @@ public class PainelMedicoAtendimento extends JPanel{
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 if (renderer instanceof JLabel && value instanceof Especialidade) {
-                    ((JLabel) renderer).setText(((Especialidade) value).getEspecialidade());
+                    ((JLabel) renderer).setText(((Especialidade) value).getNome());
                 }
                 return renderer;
             }

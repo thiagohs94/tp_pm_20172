@@ -38,7 +38,7 @@ public class EspecialidadeRegistro extends Registro {
             
             Especialidade especialidade = new Especialidade();
             especialidade.setId(Integer.parseInt(tmpCampos[0]));
-            especialidade.setEspecialidade(tmpCampos[1]);
+            especialidade.setNome(tmpCampos[1]);
 
             adicionarNaLista(especialidade);
         }

@@ -10,14 +10,14 @@ package clinicasaracura.modelo;
 public class Especialidade {
     
     private int id;
-    private String especialidade;
+    private String nome;
     
     public Especialidade() {
     }
 
-    public Especialidade(int id, String especialidade) {
+    public Especialidade(int id, String nome) {
         this.id = id;
-        this.especialidade = especialidade;
+        this.nome = nome;
         
     }
 
@@ -29,17 +29,17 @@ public class Especialidade {
         this.id = id;
     }
     
-    public String getEspecialidade() {
-        return especialidade;
+    public String getNome() {
+        return nome;
     }
 
-    public void setEspecialidade(String especialidade) {
-        this.especialidade = especialidade;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
     @Override
     public String toString() {
-        return especialidade;
+        return nome;
     }
     
 }

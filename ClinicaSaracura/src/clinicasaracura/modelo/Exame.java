@@ -5,10 +5,6 @@
  */
 package clinicasaracura.modelo;
 
-/**
- *
- * @author eliane
- */
 public class Exame {
     private int id;
     private String nome;

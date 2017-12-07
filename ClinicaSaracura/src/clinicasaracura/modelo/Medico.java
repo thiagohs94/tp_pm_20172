@@ -5,45 +5,28 @@
  */
 package clinicasaracura.modelo;
 
-public class Medico {
-    private int id;
-    private String nome;
-    private String especialidade;
-    
-    public Medico() {
-    }
+public class Medico extends Pessoa{
+    private Especialidade especialidade;
 
-    public Medico(String nome, String especialidade) {
-        this.nome = nome;
+    public Medico(int id, String nome, String identidade, String cpf, String endereco, String telefone, String dataNascimento, Especialidade especialidade) {
+        super(id, nome, identidade, cpf, endereco, telefone, dataNascimento);
         this.especialidade = especialidade;
     }
     
-    public void setId(int id) {
-        this.id = id;
+    public Medico(){
+        super();
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEspecialidade() {
+    
+    public Especialidade getEspecialidade() {
         return especialidade;
     }
 
-    public void setEspecialidade(String especialidade) {
+    public void setEspecialidade(Especialidade especialidade) {
         this.especialidade = especialidade;
     }
 
     @Override
     public String toString() {
-        return "Id: " + id + "\nNome: " + nome + "\nEspecialidade: " + especialidade;
+        return super.toString() + "\nEspecialidade: " + especialidade.getNome();
     }
 }

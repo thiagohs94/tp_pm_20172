@@ -7,7 +7,6 @@ package clinicasaracura.layout;
 
 import clinicasaracura.modelo.Cliente;
 import clinicasaracura.registro.ClienteRegistro;
-import clinicasaracura.registro.ExamesRegistro;
 import clinicasaracura.registro.MedicoRegistro;
 import clinicasaracura.registro.EspecialidadeRegistro;
 import clinicasaracura.registro.ExameRegistro;
@@ -29,21 +28,21 @@ public class TelaPrincipal {
     JTextArea texAreaExames, texAreaMedicos, texAreaClientes;
     MedicoRegistro regMedicos;
     ClienteRegistro regClientes;
-    ExamesRegistro regExames;
+    //ExamesRegistro regExames;
     ExameRegistro regExame;
     EspecialidadeRegistro regEspecialidade;
 
     public TelaPrincipal() {
         regMedicos = new MedicoRegistro();
         regClientes = new ClienteRegistro();
-        regExames = new ExamesRegistro();
+        //regExames = new ExamesRegistro();
         regExame = new ExameRegistro();
         regEspecialidade = new EspecialidadeRegistro();
         
         frame = new FrameSistema("Clínica Saracura");
         frame.setLayout(new FlowLayout());
         
-        texAreaExames = new JTextArea(regExames.toString());
+        texAreaExames = new JTextArea("");
         scrollExames = new JScrollPane(texAreaExames);
         texAreaExames.setLineWrap(true);  
         texAreaExames.setWrapStyleWord(true); 

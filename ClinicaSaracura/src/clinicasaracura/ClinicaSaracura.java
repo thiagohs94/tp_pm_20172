@@ -8,7 +8,6 @@ package clinicasaracura;
 import clinicasaracura.layout.TelaCadastroCliente;
 import clinicasaracura.layout.TelaPrincipal;
 import clinicasaracura.registro.MedicoRegistro;
-import clinicasaracura.registro.ExamesRegistro;
 
 public class ClinicaSaracura {
 
