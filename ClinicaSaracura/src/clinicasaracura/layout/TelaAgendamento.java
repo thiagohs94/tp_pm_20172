@@ -224,6 +224,10 @@ public class TelaAgendamento {
         return telaPrincipal.regMedicos.buscarPorNome(nome);
     }
     
+    public ArrayList<Medico> buscarMedicoEspec(int id){
+        return telaPrincipal.regMedicos.buscarPorEspecialiade(id);
+    }
+    
     public ArrayList<clinicasaracura.modelo.Exame> buscarExame(String nome){
         return telaPrincipal.regExame.buscarPorNome(nome);
     }

@@ -55,7 +55,7 @@ public class PainelExameAtendimento extends JPanel{
         
         txtNomeExame = new JTextField(20);
         lblNomeExame = new JLabel("Nome:");
-        lblSelecionarExame = new JLabel("Selecione um cliente para realizar um agendamento:");
+        lblSelecionarExame = new JLabel("Selecione um exame para realizar um agendamento:");
         lblNenhumResultado = new JLabel("Nenhum resultado encontrado");
         txtInfoExame = new JTextArea();
         btnBuscarExame = new JButton("Buscar");

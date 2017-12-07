@@ -162,6 +162,18 @@ public class PainelMedicoAtendimento extends JPanel{
         btnBuscarMedico.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ArrayList<Medico> result = telaPai.buscarMedicoEspec(cbEspecialidadeMedico.getSelectedIndex()+1);
+                if(result.isEmpty()){
+                lblNenhumResultado.setVisible(true);
+                    lstMedicos.setVisible(false);
+                }
+                else{
+                    arrayMedicos = result;
+                    lstMedicos.setListData(new Vector<Medico>(arrayMedicos));
+                    lblNenhumResultado.setVisible(false);
+                    lstMedicos.setVisible(true);
+                }
+                
                 /*ArrayList<Medico> result = 
                     telaPai.buscarMedico(txtNomeMedico.getText());
                 if(result.isEmpty()){
