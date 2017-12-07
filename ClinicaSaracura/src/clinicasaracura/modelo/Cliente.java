@@ -10,6 +10,10 @@ public class Cliente extends Pessoa{
         super(id, nome, identidade, cpf, endereco, telefone, dataNascimento);
     }
     
+    public Cliente(int id){
+        super (id);
+    }
+    
     public Cliente(){
         super();
     }

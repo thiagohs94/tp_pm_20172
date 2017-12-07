@@ -11,9 +11,6 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class EspecialidadeRegistro extends Registro {
-    
-    Scanner entrada;
-
     public EspecialidadeRegistro() {
         super();
     }           
@@ -22,28 +19,30 @@ public class EspecialidadeRegistro extends Registro {
     protected void lerArquivo(){
         String tmpLinha;
         String[] tmpCampos;
+        Scanner entrada;
         
         try{
             entrada = new Scanner(new File("arquivos/especialidades"));
+            limparLista();
+            while(entrada.hasNext()){
+                tmpLinha = entrada.nextLine();
+                tmpCampos = tmpLinha.split(";");
+
+                Especialidade especialidade = new Especialidade();
+                especialidade.setId(Integer.parseInt(tmpCampos[0]));
+                especialidade.setNome(tmpCampos[1]);
+
+                adicionarNaLista(especialidade);
+            }
+
+            entrada.close();
         }
         catch(FileNotFoundException ex){
             System.err.println("Arquivo de especialidades não encontrado");
             System.exit(1);
         }
         
-        limparLista();
-        while(entrada.hasNext()){
-            tmpLinha = entrada.nextLine();
-            tmpCampos = tmpLinha.split(";");
-            
-            Especialidade especialidade = new Especialidade();
-            especialidade.setId(Integer.parseInt(tmpCampos[0]));
-            especialidade.setNome(tmpCampos[1]);
-
-            adicionarNaLista(especialidade);
-        }
         
-        entrada.close();
     }
    
 }

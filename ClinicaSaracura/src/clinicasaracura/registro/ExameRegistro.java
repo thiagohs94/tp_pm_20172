@@ -15,8 +15,6 @@ import java.util.Scanner;
 
 public class ExameRegistro extends Registro {
 
-   Scanner entrada;
-
     public ExameRegistro() {
         super();
     }           
@@ -25,27 +23,30 @@ public class ExameRegistro extends Registro {
     protected void lerArquivo(){
         String tmpLinha;
         String[] tmpCampos;
+        Scanner entrada;
         
         try{
             entrada = new Scanner(new File("arquivos/exames"));
+            
+            limparLista();
+            while(entrada.hasNext()){
+                tmpLinha = entrada.nextLine();
+                tmpCampos = tmpLinha.split(";");
+
+                Exame exame = new Exame();
+                exame.setId(Integer.parseInt(tmpCampos[0]));
+                exame.setNome(tmpCampos[1]);
+
+                adicionarNaLista(exame);
+            }
+
+            entrada.close();
         }
         catch(FileNotFoundException ex){
             System.err.println("Arquivo de médicos não encontrado");
             System.exit(1);
         }
-        limparLista();
-        while(entrada.hasNext()){
-            tmpLinha = entrada.nextLine();
-            tmpCampos = tmpLinha.split(";");
-            
-            Exame exame = new Exame();
-            exame.setId(Integer.parseInt(tmpCampos[0]));
-            exame.setNome(tmpCampos[1]);
-            
-            adicionarNaLista(exame);
-        }
         
-        entrada.close();
     }
     
     public ArrayList<Exame> buscarPorNome(String nome){

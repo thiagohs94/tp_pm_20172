@@ -15,8 +15,6 @@ import java.util.Formatter;
 import java.util.Scanner;
 
 public class ClienteRegistro extends Registro {
-    Scanner entrada;
-    Formatter saida;
     
     public ClienteRegistro() {
         super();
@@ -25,40 +23,39 @@ public class ClienteRegistro extends Registro {
     protected void lerArquivo(){
         String tmpLinha;
         String[] tmpCampos;
-        
+        Scanner entrada;
         try{
             entrada = new Scanner(new File("arquivos/clientes"));
+            limparLista();
+            
+            while(entrada.hasNext()){
+                tmpLinha = entrada.nextLine();
+                tmpCampos = tmpLinha.split(";");
+
+                Cliente cliente = new Cliente();
+                cliente.setId(Integer.parseInt(tmpCampos[0]));
+                cliente.setNome(tmpCampos[1]);
+                cliente.setIdentidade(tmpCampos[2]);
+                cliente.setCpf(tmpCampos[3]);
+                cliente.setEndereco(tmpCampos[4]);
+                cliente.setTelefone(tmpCampos[5]);
+                cliente.setDataNascimento(tmpCampos[6]);
+
+                adicionarNaLista(cliente);
+            }
+
+            entrada.close();
         }
         catch(FileNotFoundException ex){
             System.err.println("Arquivo de clientes não encontrado");
             System.exit(1);
         }
-        
-        limparLista();
-        
-        while(entrada.hasNext()){
-            tmpLinha = entrada.nextLine();
-            tmpCampos = tmpLinha.split(";");
-            
-            Cliente cliente = new Cliente();
-            cliente.setId(Integer.parseInt(tmpCampos[0]));
-            cliente.setNome(tmpCampos[1]);
-            cliente.setIdentidade(tmpCampos[2]);
-            cliente.setCpf(tmpCampos[3]);
-            cliente.setEndereco(tmpCampos[4]);
-            cliente.setTelefone(tmpCampos[5]);
-            cliente.setDataNascimento(tmpCampos[6]);
-            
-            adicionarNaLista(cliente);
-        }
-        
-        entrada.close();
     }
 
     public void salvar(Cliente cliente){
         try{
             FileWriter fileWriter = new FileWriter("arquivos/clientes", true);
-            saida = new Formatter(fileWriter); 
+            Formatter saida = new Formatter(fileWriter); 
             
             saida.format("%s;%s;%s;%s;%s;%s;%s\n",
                 String.valueOf(cliente.getId()),

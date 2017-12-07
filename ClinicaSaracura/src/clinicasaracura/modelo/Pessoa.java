@@ -24,6 +24,10 @@ public class Pessoa {
         this.dataNascimento = dataNascimento;
     }
     
+    public Pessoa(int id){
+        this.id = id;
+    }
+    
     public Pessoa(){
         
     }

@@ -8,6 +8,11 @@ package clinicasaracura.modelo;
 public class Exame {
     private int id;
     private String nome;
+
+    public Exame(int id, String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
     
     public Exame() {
     }

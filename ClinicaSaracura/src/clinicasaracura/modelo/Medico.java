@@ -13,6 +13,10 @@ public class Medico extends Pessoa{
         this.especialidade = especialidade;
     }
     
+    public Medico(int id){
+        super(id);
+    }
+    
     public Medico(){
         super();
     }
