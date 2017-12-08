@@ -6,6 +6,8 @@
 package clinicasaracura.layout;
 
 import clinicasaracura.modelo.Cliente;
+import clinicasaracura.registro.AgendamentoConsultaRegistro;
+import clinicasaracura.registro.AgendamentoExameRegistro;
 import clinicasaracura.registro.ClienteRegistro;
 import clinicasaracura.registro.MedicoRegistro;
 import clinicasaracura.registro.EspecialidadeRegistro;
@@ -26,18 +28,31 @@ public class TelaPrincipal {
     JButton botaoMedicos, botaoClientes, botaoExames, botaoAdicionarCliente, botaoAgendamento;
     JScrollPane scrollExames, scrollMedicos, scrollClientes;
     JTextArea texAreaExames, texAreaMedicos, texAreaClientes;
-    MedicoRegistro regMedicos;
+    
     ClienteRegistro regClientes;
+    EspecialidadeRegistro regEspecialidades;
+    ExameRegistro regExames;
+    MedicoRegistro regMedicos;
+    AgendamentoConsultaRegistro regAgendamentoConsultas;
+    AgendamentoExameRegistro regAgendamentoExames;
+    
+    
     //ExamesRegistro regExames;
-    ExameRegistro regExame;
-    EspecialidadeRegistro regEspecialidade;
+    
+    
 
-    public TelaPrincipal() {
-        regMedicos = new MedicoRegistro();
-        regClientes = new ClienteRegistro();
-        //regExames = new ExamesRegistro();
-        regExame = new ExameRegistro();
-        regEspecialidade = new EspecialidadeRegistro();
+    public TelaPrincipal(ClienteRegistro regClientes,
+        EspecialidadeRegistro regEspecialidades,
+        ExameRegistro regExames, MedicoRegistro regMedicos,
+        AgendamentoConsultaRegistro regAgendamentoConsultas,
+        AgendamentoExameRegistro regAgendamentoExames) {
+        
+        this.regClientes = regClientes;
+        this.regEspecialidades = regEspecialidades;
+        this.regExames = regExames;
+        this.regMedicos = regMedicos;
+        this.regAgendamentoConsultas = regAgendamentoConsultas;
+        this.regAgendamentoExames = regAgendamentoExames;
         
         frame = new FrameSistema("Clínica Saracura");
         frame.setLayout(new FlowLayout());
@@ -85,8 +100,8 @@ public class TelaPrincipal {
         TelaAgendamento tela = new TelaAgendamento(this,
             regClientes.getListaRegistros(),
             regMedicos.getListaRegistros(),
-            regExame.getListaRegistros(),
-            regEspecialidade.getListaRegistros());
+            regExames.getListaRegistros(),
+            regEspecialidades.getListaRegistros());
     }
     
     public void habilitar(){
@@ -103,7 +118,7 @@ public class TelaPrincipal {
     
     
     public int quantEspecialidades(){
-        return (regEspecialidade.getQuantidade());
+        return (regEspecialidades.getQuantidade());
     }
     
     private void setarAcoesBotoes(){

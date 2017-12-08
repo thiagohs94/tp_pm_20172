@@ -17,6 +17,7 @@ public class ExameRegistro extends Registro {
 
     public ExameRegistro() {
         super();
+        lerArquivo();
     }           
     
     @Override
@@ -47,6 +48,15 @@ public class ExameRegistro extends Registro {
             System.exit(1);
         }
         
+    }
+    
+    public Exame buscarPorId(int idExame){
+        for(int i=0;i<lista.size();i++){
+            if(((Exame)lista.get(i)).getId() == idExame){
+                return (Exame)lista.get(i);
+            }
+        }
+        return null;
     }
     
     public ArrayList<Exame> buscarPorNome(String nome){

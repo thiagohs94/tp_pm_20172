@@ -18,7 +18,16 @@ import java.util.Formatter;
 import java.util.Scanner;
 
 public class AgendamentoExameRegistro extends Registro{
-
+    private ClienteRegistro regCliente;
+    private ExameRegistro regExame;
+    
+    public AgendamentoExameRegistro(ClienteRegistro regCliente, ExameRegistro regExame){
+        super();
+        this.regCliente = regCliente;
+        this.regExame = regExame;
+        lerArquivo();
+    }
+    
     @Override
     protected void lerArquivo(){
         String tmpLinha;
@@ -36,9 +45,9 @@ public class AgendamentoExameRegistro extends Registro{
                 AgendamentoExame agendamento = new AgendamentoExame();
                 agendamento.setDia(Integer.parseInt(tmpCampos[0]));
                 agendamento.setHorario(Integer.parseInt(tmpCampos[1]));
-                agendamento.setCliente(new Cliente(Integer.parseInt(tmpCampos[2])));
+                agendamento.setCliente(regCliente.buscarPorId(Integer.parseInt(tmpCampos[2])));
                 agendamento.setTipo(Integer.parseInt(tmpCampos[3]));
-                agendamento.setExame(new Exame(Integer.parseInt(tmpCampos[4]), ""));
+                agendamento.setExame(regExame.buscarPorId(Integer.parseInt(tmpCampos[4])));
                 adicionarNaLista(agendamento);
             }
             
@@ -72,7 +81,7 @@ public class AgendamentoExameRegistro extends Registro{
         }
     }
     
-    public ArrayList<AgendamentoExame> pesquisarPorExameDiaHorario(int idExame, int dia, int horario){
+    public ArrayList<AgendamentoExame> buscarPorExameDiaHorario(int idExame, int dia, int horario){
         ArrayList<AgendamentoExame> result = new ArrayList();
         for(int i=0;i<lista.size();i++){
             if(((AgendamentoExame)lista.get(i)).getExame().getId() == idExame

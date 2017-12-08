@@ -19,6 +19,15 @@ import java.util.Formatter;
 import java.util.Scanner;
 
 public class AgendamentoConsultaRegistro extends Registro{
+    private ClienteRegistro regClientes;
+    private MedicoRegistro regMedicos;
+    
+    public AgendamentoConsultaRegistro(ClienteRegistro regClientes, MedicoRegistro regMedicos){
+        super();
+        this.regClientes = regClientes;
+        this.regMedicos = regMedicos;
+        lerArquivo();
+    }
     
     @Override
     protected void lerArquivo(){
@@ -38,9 +47,9 @@ public class AgendamentoConsultaRegistro extends Registro{
                 
                 agendamento.setDia(Integer.parseInt(tmpCampos[0]));
                 agendamento.setHorario(Integer.parseInt(tmpCampos[1]));
-                agendamento.setCliente(new Cliente(Integer.parseInt(tmpCampos[2])));
+                agendamento.setCliente(regClientes.buscarPorId(Integer.parseInt(tmpCampos[2])));
                 agendamento.setTipo(Integer.parseInt(tmpCampos[3]));
-                agendamento.setMedico(new Medico(Integer.parseInt(tmpCampos[4])));
+                agendamento.setMedico(regMedicos.buscarPorId(Integer.parseInt(tmpCampos[4])));
                 adicionarNaLista(agendamento);
             }
             
@@ -74,7 +83,7 @@ public class AgendamentoConsultaRegistro extends Registro{
         }
     }
     
-    public ArrayList<AgendamentoConsulta> pesquisarPorMedicoDiaHorario(int idMedico, int dia, int horario){
+    public ArrayList<AgendamentoConsulta> buscarPorMedicoDiaHorario(int idMedico, int dia, int horario){
         ArrayList<AgendamentoConsulta> result = new ArrayList();
         for(int i=0;i<lista.size();i++){
             if(((AgendamentoConsulta)lista.get(i)).getMedico().getId() == idMedico

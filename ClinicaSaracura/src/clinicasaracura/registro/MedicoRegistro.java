@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MedicoRegistro extends Registro {
-    public MedicoRegistro() {
+    private EspecialidadeRegistro regEspecilidade;
+    
+    public MedicoRegistro(EspecialidadeRegistro regEspecilidade) {
         super();
+        this.regEspecilidade = regEspecilidade;
+        lerArquivo();
     }           
     
     @Override
@@ -25,6 +29,7 @@ public class MedicoRegistro extends Registro {
         
         try{
             entrada = new Scanner(new File("arquivos/medicos"));
+            regEspecilidade = new EspecialidadeRegistro();
             
             limparLista();
             while(entrada.hasNext()){
@@ -39,7 +44,7 @@ public class MedicoRegistro extends Registro {
                 medico.setEndereco(tmpCampos[4]);
                 medico.setTelefone(tmpCampos[5]);
                 medico.setDataNascimento(tmpCampos[6]);
-                medico.setEspecialidade(new Especialidade(Integer.parseInt(tmpCampos[7]),""));
+                medico.setEspecialidade(regEspecilidade.buscarPorId(Integer.parseInt(tmpCampos[7])));
 
                 adicionarNaLista(medico);
             }
@@ -50,6 +55,15 @@ public class MedicoRegistro extends Registro {
             System.err.println("Arquivo de médicos não encontrado");
             System.exit(1);
         }
+    }
+    
+    public Medico buscarPorId(int idMedico){
+        for(int i=0;i<lista.size();i++){
+            if(((Medico)lista.get(i)).getId() == idMedico){
+                return (Medico)lista.get(i);
+            }
+        }
+        return null;
     }
     
     public ArrayList<Medico> buscarPorNome(String nome){

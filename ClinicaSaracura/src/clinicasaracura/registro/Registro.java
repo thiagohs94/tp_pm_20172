@@ -12,7 +12,6 @@ public abstract class Registro<T> {
     
     public Registro() {
         lista = new ArrayList<>();
-        lerArquivo();
     }    
     
     protected abstract void lerArquivo();

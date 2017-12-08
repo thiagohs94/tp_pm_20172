@@ -18,8 +18,10 @@ public class ClienteRegistro extends Registro {
     
     public ClienteRegistro() {
         super();
+        lerArquivo();
     }           
     
+    @Override
     protected void lerArquivo(){
         String tmpLinha;
         String[] tmpCampos;
@@ -74,6 +76,15 @@ public class ClienteRegistro extends Registro {
             System.err.println("Não é possível salvar cliente");
             System.exit(1);
         }
+    }
+    
+    public Cliente buscarPorId(int idCliente){
+        for(int i=0;i<lista.size();i++){
+            if(((Cliente)lista.get(i)).getId() == idCliente){
+                return (Cliente)lista.get(i);
+            }
+        }
+        return null;
     }
     
     public ArrayList<Cliente> buscarPorNome(String nome){

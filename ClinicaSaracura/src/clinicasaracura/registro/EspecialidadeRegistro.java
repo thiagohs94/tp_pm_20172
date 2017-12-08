@@ -6,13 +6,16 @@
 package clinicasaracura.registro;
 
 import clinicasaracura.modelo.Especialidade;
+import clinicasaracura.modelo.Medico;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EspecialidadeRegistro extends Registro {
     public EspecialidadeRegistro() {
         super();
+        lerArquivo();
     }           
     
     @Override
@@ -40,9 +43,15 @@ public class EspecialidadeRegistro extends Registro {
         catch(FileNotFoundException ex){
             System.err.println("Arquivo de especialidades não encontrado");
             System.exit(1);
-        }
-        
-        
+        }        
     }
-   
+    
+    public Especialidade buscarPorId(int idEspecialidade){
+        for(int i=0;i<lista.size();i++){
+            if(((Especialidade)lista.get(i)).getId() == idEspecialidade){
+                return (Especialidade)lista.get(i);
+            }
+        }
+        return null;
+    }
 }

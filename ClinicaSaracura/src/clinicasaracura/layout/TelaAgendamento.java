@@ -233,7 +233,7 @@ public class TelaAgendamento {
     }
     
     public ArrayList<clinicasaracura.modelo.Exame> buscarExame(String nome){
-        return telaPrincipal.regExame.buscarPorNome(nome);
+        return telaPrincipal.regExames.buscarPorNome(nome);
     }
     
     public void adicionarNovoCliente(){
