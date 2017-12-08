@@ -83,15 +83,14 @@ public class AgendamentoConsultaRegistro extends Registro{
         }
     }
     
-    public ArrayList<AgendamentoConsulta> buscarPorMedicoDiaHorario(int idMedico, int dia, int horario){
-        ArrayList<AgendamentoConsulta> result = new ArrayList();
+    public AgendamentoConsulta buscarPorMedicoDiaHorario(int idMedico, int dia, int horario){
         for(int i=0;i<lista.size();i++){
             if(((AgendamentoConsulta)lista.get(i)).getMedico().getId() == idMedico
                 && ((AgendamentoConsulta)lista.get(i)).getDia() == dia
                 && ((AgendamentoConsulta)lista.get(i)).getHorario() == horario){
-                result.add((AgendamentoConsulta)lista.get(i));
+                return (AgendamentoConsulta)lista.get(i);
             }
         }
-        return result;
+        return null;
     }
 }

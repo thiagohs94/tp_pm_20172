@@ -177,30 +177,34 @@ public class PainelMedicoAtendimento extends JPanel{
                     lblNenhumResultado.setVisible(false);
                     lstMedicos.setVisible(true);
                 }
-                
-                /*ArrayList<Medico> result = 
-                    telaPai.buscarMedico(txtNomeMedico.getText());
-                if(result.isEmpty()){
-                    lblNenhumResultado.setVisible(true);
-                    lstMedicos.setVisible(false);
-                }
-                else{
-                    arrayMedicos = result;
-                    lstMedicos.setListData(new Vector<Medico>(arrayMedicos));
-                    lblNenhumResultado.setVisible(false);
-                    lstMedicos.setVisible(true);
-                } */
             }
         });
         
         btnConfirmarMedico.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                telaPai.confirmarMedico(((Medico)lstMedicos.getSelectedValue()));
+                if(lstMedicos.getSelectedValue() != null){
+                    telaPai.confirmarMedico(((Medico)lstMedicos.getSelectedValue()));
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Selecione um dos médicos na lista",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
     
+    public void setarHabilitado(boolean status){
+        setEnabled(status);
+        cbEspecialidadeMedico.setEnabled(status);
+        btnBuscarMedico.setEnabled(status);
+        btnConfirmarMedico.setEnabled(status);
+        lblNomeEspecialidade.setEnabled(status);
+        lblSelecionarMedico.setEnabled(status);
+        lblNenhumResultado.setEnabled(status);
+        txtInfoMedico.setEnabled(status);
+        lstMedicos.setEnabled(status);
+    }
     
     
 }

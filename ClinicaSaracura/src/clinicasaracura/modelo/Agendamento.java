@@ -20,6 +20,10 @@ public class Agendamento {
     public static final int TIPO_PARTICULAR = 2;
     public static final int TIPO_CONVENIO = 3;
     
+    public static final int TIPO_PAGAMENTO_DINHEIRO = 1;
+    public static final int TIPO_PAGAMENTO_CARTAO = 2;
+    public static final int TIPO_PAGAMENTO_CHEQUE = 3;
+    
     private int dia;
     private int horario;
     private Cliente cliente;
@@ -88,6 +92,24 @@ public class Agendamento {
             case 16: return "15:30 - 16:00";
             case 17: return "16:00 - 16:30";
             case 18: return "16:30 - 17:00";
+            default: return "";
+        }
+    }
+    
+    public static String getTextoTipo(int tipo){
+        switch(tipo){
+            case TIPO_CORTESIA: return "Cortesia";
+            case TIPO_PARTICULAR: return "Particular";    
+            case TIPO_CONVENIO: return "Convênio";    
+            default: return "";
+        }
+    }
+    
+    public static String getTextoTipoPagamento(int tipo){
+        switch(tipo){
+            case TIPO_PAGAMENTO_DINHEIRO: return "Dinheiro";
+            case TIPO_PAGAMENTO_CARTAO: return "Cartão";    
+            case TIPO_PAGAMENTO_CHEQUE: return "Cheque ";    
             default: return "";
         }
     }

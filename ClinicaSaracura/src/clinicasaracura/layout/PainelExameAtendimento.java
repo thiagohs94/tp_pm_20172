@@ -157,12 +157,27 @@ public class PainelExameAtendimento extends JPanel{
         btnConfirmarExame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                telaPai.confirmarExame(((Exame)lstExames.getSelectedValue()));
+                if(lstExames.getSelectedValue() != null){
+                    telaPai.confirmarExame(((Exame)lstExames.getSelectedValue()));
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Selecione um dos exames na lista",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
     
-    
+    public void setarHabilitado(boolean status){
+        txtNomeExame.setEnabled(status);
+        btnBuscarExame.setEnabled(status);
+        btnConfirmarExame.setEnabled(status);
+        lblNomeExame.setEnabled(status);
+        lblSelecionarExame.setEnabled(status);
+        lblNenhumResultado.setEnabled(status);
+        txtInfoExame.setEnabled(status);
+        lstExames.setEnabled(status);
+    }
     
 }
 

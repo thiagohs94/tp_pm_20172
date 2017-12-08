@@ -6,6 +6,10 @@
 package clinicasaracura.layout;
 
  
+import clinicasaracura.modelo.Agendamento;
+import clinicasaracura.modelo.AgendamentoConsulta;
+import clinicasaracura.modelo.AgendamentoExame;
+import clinicasaracura.modelo.Autorizacao;
 import clinicasaracura.modelo.Cliente;
 import clinicasaracura.modelo.Especialidade;
 import clinicasaracura.modelo.Exame;
@@ -27,6 +31,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -80,14 +85,6 @@ public class TelaAgendamento {
          
         frame = new FrameSistema("Clínica Saracura - Agendamento de Exames");
         frame.setLayout(new GridBagLayout());
-        //pnlCampos = new JPanel();
-        
-        /*layout = new GroupLayout(pnlCampos);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);*/
-        //pnlCampos.setLayout(layout);
-        
-        
         
         lblTitulo = new JLabel("Escolha sua especialidade:");
         
@@ -151,27 +148,9 @@ public class TelaAgendamento {
         pnlAtendimento.add(pnlMedico);
         pnlAtendimento.add(pnlExame);
         
+        setarPainelAtendimentoHabilitado(false);
+        setarPainelFinalizacaoHabilitado(false);
         pnlExame.setVisible(false);
-        
-        /*layout.setHorizontalGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(lblTitulo)
-                )
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(btnCancelar)
-                    .addComponent(btnConfirmar)
-                )
-            )
-        );
- 
-        layout.setVerticalGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(lblTitulo))
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(btnCancelar)
-                .addComponent(btnConfirmar))
-        );*/
         
         setarAcaoRadio();
         setarAcoesBotoes();
@@ -179,11 +158,25 @@ public class TelaAgendamento {
         frame.add(pnlCliente);
         frame.add(pnlAtendimento);
         frame.add(pnlFinalizacao);
-
-        //frame.add(pnlCampos);
-        //frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+    
+    private void setarPainelClienteHabilitado(boolean status){
+        pnlCliente.setarHabilitado(status);
+    }
+    
+    private void setarPainelAtendimentoHabilitado(boolean status){
+        pnlAtendimento.setEnabled(status);
+        lblAtendimento.setEnabled(status);
+        rbConsulta.setEnabled(status);
+        rbExame.setEnabled(status);
+        pnlMedico.setarHabilitado(status);
+        pnlExame.setarHabilitado(status);
+    }
+    
+    private void setarPainelFinalizacaoHabilitado(boolean status){
+        pnlFinalizacao.setarHabilitado(status);
     }
     
     private void setarAcaoRadio(){
@@ -235,39 +228,90 @@ public class TelaAgendamento {
         frame.dispose();
     }
     
-    public ArrayList<Cliente> buscarCliente(String nome){
-        return telaPrincipal.regClientes.buscarPorNome(nome);
-    }
-    
-    public ArrayList<Medico> buscarMedico(String nome){
-        return telaPrincipal.regMedicos.buscarPorNome(nome);
-    }
-    
-    public ArrayList<Medico> buscarMedicoEspec(int id){
-        return telaPrincipal.regMedicos.buscarPorEspecialiade(id);
-    }
-    
-    public ArrayList<clinicasaracura.modelo.Exame> buscarExame(String nome){
-        return telaPrincipal.regExames.buscarPorNome(nome);
-    }
-    
     public void adicionarNovoCliente(){
         telaPrincipal.exibirCadastroCliente();
     }
     
     public void confirmarCliente(Cliente cliente){
         clienteEscolhido = cliente;
-        System.out.println(clienteEscolhido.toString()); 
+        setarPainelClienteHabilitado(false);
+        setarPainelAtendimentoHabilitado(true);
+        setarPainelFinalizacaoHabilitado(false);
     }
     
     public void confirmarMedico(Medico medico){
         medicoEscolhido = medico;
-        System.out.println(medicoEscolhido.toString());
+        exameEscolhido = null;
+        setarPainelClienteHabilitado(false);
+        setarPainelAtendimentoHabilitado(false);
+        setarPainelFinalizacaoHabilitado(true);
+        
+        pnlFinalizacao.alterarAtendimento(medico.getId(), PainelFinalizacaoAgendamento.RECURSO_MEDICO);
     }
     
     public void confirmarExame(Exame exame){
+        medicoEscolhido = null;
         exameEscolhido = exame;
-        System.out.println(exameEscolhido.toString());
+        setarPainelClienteHabilitado(false);
+        setarPainelAtendimentoHabilitado(false);
+        setarPainelFinalizacaoHabilitado(true);
+        
+        pnlFinalizacao.alterarAtendimento(exame.getId(), PainelFinalizacaoAgendamento.RECURSO_EXAME);
     }
     
+    public void salvarAgendamento(int dia, int horario, int tipo, int tipoPagamento){
+        boolean autorizado = true;
+        
+        Autorizacao autorizacao = new Autorizacao();
+        if(tipo == Agendamento.TIPO_CORTESIA){
+            autorizado = autorizacao.autorizaCortesia();
+        }
+        else if(tipo == Agendamento.TIPO_CONVENIO){
+            autorizado = autorizacao.autorizaConvenio();
+        }
+        else if(tipo == Agendamento.TIPO_PARTICULAR && tipoPagamento == Agendamento.TIPO_PAGAMENTO_DINHEIRO){
+            autorizado = autorizacao.autorizaDinheiro();
+        }
+        else if(tipo == Agendamento.TIPO_PARTICULAR && tipoPagamento == Agendamento.TIPO_PAGAMENTO_CHEQUE){
+            autorizado = autorizacao.autorizaCheque();
+        }
+        else if(tipo == Agendamento.TIPO_PARTICULAR && tipoPagamento == Agendamento.TIPO_PAGAMENTO_CARTAO){
+            autorizado = autorizacao.autorizaCartao();
+        }
+        
+        if(autorizado){
+            if(medicoEscolhido != null){
+                AgendamentoConsulta agendamento = new AgendamentoConsulta();
+                agendamento.setCliente(clienteEscolhido);
+                agendamento.setDia(dia);
+                agendamento.setHorario(horario);
+                agendamento.setTipo(tipo);
+                agendamento.setMedico(medicoEscolhido);
+
+                regAgendamentoConsultas.salvar(agendamento);
+            }
+            else if(exameEscolhido != null){
+                AgendamentoExame agendamento = new AgendamentoExame();
+                agendamento.setCliente(clienteEscolhido);
+                agendamento.setDia(dia);
+                agendamento.setHorario(horario);
+                agendamento.setTipo(tipo);
+                agendamento.setExame(exameEscolhido);
+
+                regAgendamentoExames.salvar(agendamento);
+            }
+
+            JOptionPane.showMessageDialog(null, "Agendamento salvo com sucesso",
+                "Clínica Saracura", JOptionPane.INFORMATION_MESSAGE);
+            telaPrincipal.habilitar();
+            frame.dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Este agendamento não foi autorizado",
+                "Clínica Saracura", JOptionPane.ERROR_MESSAGE);
+            telaPrincipal.habilitar();
+            frame.dispose();
+        }
+        
+    }
 }

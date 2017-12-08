@@ -16,9 +16,12 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class PainelFinalizacaoAgendamento extends JPanel {
@@ -28,8 +31,15 @@ public class PainelFinalizacaoAgendamento extends JPanel {
     private TelaAgendamento telaPai;
     private JLabel lblDia;
     private JLabel lblHorario;
+    private JLabel lblTipoAtendimento;
+    private JLabel lblTipoPagamento;
+    
     private JComboBox cbDias;
     private JComboBox cbHorarios;
+    private JComboBox cbTipoAtendimento;
+    private JComboBox cbTipoPagamento;
+    
+    private JButton btnSalvarAgendamento;
     
     private int diaSelecionado;
     private int horarioSelecionado;
@@ -46,7 +56,11 @@ public class PainelFinalizacaoAgendamento extends JPanel {
         this.regAgendamentoConsulta = regAgendamentoConsulta;
         this.regAgendamentoExame = regAgendamentoExame;
         
-        setBorder(BorderFactory.createTitledBorder("Horário e Pagamento")); 
+        GroupLayout layout = new GroupLayout(this);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        setBorder(BorderFactory.createTitledBorder("Horário e Tipo de Atendimento")); 
+        setLayout(layout);
         
         diaSelecionado = 1;
         horarioSelecionado = 1;
@@ -55,50 +69,131 @@ public class PainelFinalizacaoAgendamento extends JPanel {
         
         lblDia = new JLabel("Dia:");
         lblHorario = new JLabel("Horário:");
+        lblTipoAtendimento = new JLabel("Tipo de Atendimento:");
+        lblTipoPagamento = new JLabel("Tipo de Pagamento:");
         configurarComboBoxes();
+        
+        btnSalvarAgendamento = new JButton("Salvar Agendamento");
+        btnSalvarAgendamento.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tipoRecurso == PainelFinalizacaoAgendamento.RECURSO_MEDICO
+                    && regAgendamentoConsulta.buscarPorMedicoDiaHorario(idRecurso,
+                        (int)cbDias.getSelectedItem(),
+                        (int)cbHorarios.getSelectedItem()) == null){
+                    
+                    telaPai.salvarAgendamento((int)cbDias.getSelectedItem(),
+                        (int)cbHorarios.getSelectedItem(),
+                        (int)cbTipoAtendimento.getSelectedItem(),
+                        (int)cbTipoPagamento.getSelectedItem());
+                }
+                else if(tipoRecurso == PainelFinalizacaoAgendamento.RECURSO_EXAME
+                    && regAgendamentoExame.buscarPorExameDiaHorario(idRecurso,
+                        (int)cbDias.getSelectedItem(),
+                        (int)cbHorarios.getSelectedItem()) == null){
+                    
+                    telaPai.salvarAgendamento((int)cbDias.getSelectedItem(),
+                        (int)cbHorarios.getSelectedItem(),
+                        (int)cbTipoAtendimento.getSelectedItem(),
+                        (int)cbTipoPagamento.getSelectedItem());
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Selecione um dos horários disponíveis para o atendimento",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
+        layout.setHorizontalGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(lblDia)
+                        .addComponent(lblHorario)
+                        .addComponent(lblTipoAtendimento)
+                        .addComponent(lblTipoPagamento)
+                    )
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(cbDias)
+                        .addComponent(cbHorarios)
+                        .addComponent(cbTipoAtendimento)
+                        .addComponent(cbTipoPagamento)
+                    )
+                    
+                )
+                .addComponent(btnSalvarAgendamento)
+            )
+        );
+ 
+        layout.setVerticalGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblDia)
+                .addComponent(cbDias))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblHorario)
+                .addComponent(cbHorarios))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblTipoAtendimento)
+                .addComponent(cbTipoAtendimento))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblTipoPagamento)
+                .addComponent(cbTipoPagamento))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(btnSalvarAgendamento))
+        );
         
         add(lblDia); 
         add(cbDias);
         add(lblHorario);
         add(cbHorarios);
+        add(lblTipoAtendimento);
+        add(cbTipoAtendimento);
+        add(lblTipoPagamento);
+        add(cbTipoPagamento);
     }
 
-    public int getIdRecurso() {
-        return idRecurso;
-    }
-
-    public void setIdRecurso(int idRecurso) {
+    public void alterarAtendimento(int idRecurso, int tipoRecurso){
         this.idRecurso = idRecurso;
-    }
-
-    public int getTipoRecurso() {
-        return tipoRecurso;
-    }
-
-    public void setTipoRecurso(int tipoRecurso) {
         this.tipoRecurso = tipoRecurso;
+        
+        setarComboBoxHorariosRenderer();
     }
     
     private void configurarComboBoxes(){
         Integer[] dias = new Integer[30];
         Integer[] horarios = new Integer[18];
+        Integer[] tiposAtendimento = new Integer[3];
+        Integer[] tiposPagamento = new Integer[3];
         
         for(int i=0;i<30;i++){
             dias[i] = i+1;
             if(i<18){
                 horarios[i] = i+1;
             }
+            
+            if(i<3){
+                tiposAtendimento[i] = i+1;
+                tiposPagamento[i] = i+1;
+            }
+            
         }
         
         cbDias = new JComboBox(new DefaultComboBoxModel(dias));
         cbHorarios = new JComboBox(new DefaultComboBoxModel(horarios));
+        cbTipoAtendimento = new JComboBox(new DefaultComboBoxModel(tiposAtendimento)); 
+        cbTipoPagamento = new JComboBox(new DefaultComboBoxModel(tiposPagamento));
         
-        setComboBoxHorariosRenderer();
+        lblTipoPagamento.setVisible(false);
+        cbTipoPagamento.setVisible(false);
+        
+        setarComboBoxHorariosRenderer();
+
         
         cbDias.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 diaSelecionado = (int) cbDias.getSelectedItem();
+                setarComboBoxHorariosRenderer();
             }
         });
         
@@ -109,9 +204,23 @@ public class PainelFinalizacaoAgendamento extends JPanel {
             }
         });
         
+        cbTipoAtendimento.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if((int)cbTipoAtendimento.getSelectedItem() == Agendamento.TIPO_PARTICULAR){
+                    lblTipoPagamento.setVisible(true);
+                    cbTipoPagamento.setVisible(true);
+                }
+                else{
+                    lblTipoPagamento.setVisible(false);
+                    cbTipoPagamento.setVisible(false);
+                }
+            }
+        });
+        
     }
     
-    private void setComboBoxHorariosRenderer(){
+    private void setarComboBoxHorariosRenderer(){
         cbHorarios.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -119,16 +228,51 @@ public class PainelFinalizacaoAgendamento extends JPanel {
                 ((JLabel) renderer).setText(Agendamento.getTextoHorario((int) value));
                 if(idRecurso != -1){
                     if(tipoRecurso == PainelFinalizacaoAgendamento.RECURSO_MEDICO){
-                        regAgendamentoConsulta.buscarPorMedicoDiaHorario(idRecurso, diaSelecionado, horarioSelecionado);
+                        if(regAgendamentoConsulta.buscarPorMedicoDiaHorario(idRecurso, diaSelecionado, (int) value) != null){
+                            renderer.setEnabled(false);
+                        }
                     }
                     else{
-                        regAgendamentoExame.buscarPorExameDiaHorario(idRecurso, diaSelecionado, horarioSelecionado);
+                        if(regAgendamentoExame.buscarPorExameDiaHorario(idRecurso, diaSelecionado, (int)value) != null){
+                            renderer.setEnabled(false);
+                        }
                     }
                 }
                 
                 return renderer;
             }
         });
+        
+        cbTipoAtendimento.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                ((JLabel) renderer).setText(Agendamento.getTextoTipo((int) value));
+                return renderer;
+            }
+        });
+        
+        cbTipoPagamento.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                ((JLabel) renderer).setText(Agendamento.getTextoTipoPagamento((int) value));
+                return renderer;
+            }
+        });
+    }
+    
+    public void setarHabilitado(boolean status){
+        setEnabled(status);
+        lblDia.setEnabled(status);
+        lblHorario.setEnabled(status);
+        lblTipoAtendimento.setEnabled(status);
+
+        cbDias.setEnabled(status);
+        cbHorarios.setEnabled(status);
+        cbTipoAtendimento.setEnabled(status);
+
+        btnSalvarAgendamento.setEnabled(status);
     }
     
 }

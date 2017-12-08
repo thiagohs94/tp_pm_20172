@@ -81,16 +81,15 @@ public class AgendamentoExameRegistro extends Registro{
         }
     }
     
-    public ArrayList<AgendamentoExame> buscarPorExameDiaHorario(int idExame, int dia, int horario){
-        ArrayList<AgendamentoExame> result = new ArrayList();
+    public AgendamentoExame buscarPorExameDiaHorario(int idExame, int dia, int horario){
         for(int i=0;i<lista.size();i++){
             if(((AgendamentoExame)lista.get(i)).getExame().getId() == idExame
                 && ((AgendamentoExame)lista.get(i)).getDia() == dia
                 && ((AgendamentoExame)lista.get(i)).getHorario() == horario){
-                result.add((AgendamentoExame)lista.get(i));
+                return (AgendamentoExame)lista.get(i);
             }
         }
-        return result;
+        return null;
     }
     
 }

@@ -167,11 +167,26 @@ public class PainelClienteAgendamento extends JPanel{
         btnConfirmarCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                telaPai.confirmarCliente(((Cliente)lstClientes.getSelectedValue()));
+                if(lstClientes.getSelectedValue() != null){
+                    telaPai.confirmarCliente(((Cliente)lstClientes.getSelectedValue()));
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Selecione um dos clientes na lista",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
     
-    
-    
+    public void setarHabilitado(boolean status){
+        txtNomeCliente.setEnabled(status);
+        btnBuscarCliente.setEnabled(status);
+        btnAddCliente.setEnabled(status);
+        btnConfirmarCliente.setEnabled(status);
+        lblNomeCliente.setEnabled(status);
+        lblSelecionarCliente.setEnabled(status);
+        lblNenhumResultado.setEnabled(status);
+        txtInfoCliente.setEnabled(status);
+        lstClientes.setEnabled(status);
+    }
 }

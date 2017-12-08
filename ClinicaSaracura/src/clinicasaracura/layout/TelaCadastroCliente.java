@@ -184,7 +184,7 @@ public class TelaCadastroCliente {
                 atualizarCamposCliente();
                 telaPrincipal.salvarCliente(cliente);
                 telaPrincipal.habilitar();
-                destruir();
+                frame.dispose();
             }
         });
     }
@@ -201,10 +201,6 @@ public class TelaCadastroCliente {
     
     private void cancelarCadastro(){
         telaPrincipal.habilitar();
-        destruir();
-    }
-    
-    private void destruir(){
         frame.dispose();
     }
 }
