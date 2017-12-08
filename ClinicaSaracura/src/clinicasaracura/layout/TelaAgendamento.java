@@ -26,6 +26,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class TelaAgendamento {    
+    private Cliente clienteEscolhido;
+    private Exame exameEscolhido;
+    private Medico medicoEscolhido;
+    
     private FrameSistema frame;
     TelaPrincipal telaPrincipal;
     
@@ -236,16 +240,19 @@ public class TelaAgendamento {
         telaPrincipal.exibirCadastroCliente();
     }
     
-    public void confirmarCliente(){
-        
+    public void confirmarCliente(Cliente cliente){
+        clienteEscolhido = cliente;
+        System.out.println(clienteEscolhido.toString()); 
     }
     
-    public void confirmarMedico(){
-        
+    public void confirmarMedico(Medico medico){
+        medicoEscolhido = medico;
+        System.out.println(medicoEscolhido.toString());
     }
     
-    public void confirmarExame(){
-        
+    public void confirmarExame(Exame exame){
+        exameEscolhido = exame;
+        System.out.println(exameEscolhido.toString());
     }
     
 }

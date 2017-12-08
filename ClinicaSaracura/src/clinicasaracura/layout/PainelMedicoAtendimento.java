@@ -192,7 +192,7 @@ public class PainelMedicoAtendimento extends JPanel{
         btnConfirmarMedico.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                telaPai.confirmarMedico();
+                telaPai.confirmarMedico(((Medico)lstMedicos.getSelectedValue()));
             }
         });
     }

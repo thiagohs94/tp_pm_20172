@@ -158,7 +158,7 @@ public class PainelExameAtendimento extends JPanel{
         btnConfirmarExame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                telaPai.confirmarExame();
+                telaPai.confirmarExame(((Exame)lstExames.getSelectedValue()));
             }
         });
     }

@@ -168,7 +168,7 @@ public class PainelClienteAgendamento extends JPanel{
         btnConfirmarCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                telaPai.confirmarCliente();
+                telaPai.confirmarCliente(((Cliente)lstClientes.getSelectedValue()));
             }
         });
     }
