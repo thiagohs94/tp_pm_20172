@@ -10,6 +10,12 @@ import clinicasaracura.modelo.Cliente;
 import clinicasaracura.modelo.Especialidade;
 import clinicasaracura.modelo.Exame;
 import clinicasaracura.modelo.Medico;
+import clinicasaracura.registro.AgendamentoConsultaRegistro;
+import clinicasaracura.registro.AgendamentoExameRegistro;
+import clinicasaracura.registro.ClienteRegistro;
+import clinicasaracura.registro.EspecialidadeRegistro;
+import clinicasaracura.registro.ExameRegistro;
+import clinicasaracura.registro.MedicoRegistro;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,14 +38,11 @@ public class TelaAgendamento {
     
     private FrameSistema frame;
     TelaPrincipal telaPrincipal;
-    
-    private ArrayList<Cliente> lstCliente;
-    private ArrayList<Medico> lstMedicos;
-    private ArrayList<Exame> lstExames;
-    private ArrayList<Especialidade> lstEspecialidades;
+
     private PainelClienteAgendamento pnlCliente;
     private PainelMedicoAtendimento pnlMedico;
     private PainelExameAtendimento pnlExame;
+    private PainelFinalizacaoAgendamento pnlFinalizacao;
     
     private GroupLayout layout;
     private JPanel pnlCampos;
@@ -52,18 +55,28 @@ public class TelaAgendamento {
     
     private JButton btnCancelar, btnConfirmar;    
     
+    ClienteRegistro regClientes;
+    EspecialidadeRegistro regEspecialidades;
+    ExameRegistro regExames;
+    MedicoRegistro regMedicos;
+    AgendamentoConsultaRegistro regAgendamentoConsultas;
+    AgendamentoExameRegistro regAgendamentoExames;
     
-    public TelaAgendamento(TelaPrincipal telaPrincipal,
-        ArrayList<Cliente> lstCliente,
-        ArrayList<Medico> lstMedicos,
-        ArrayList<Exame> lstExames,
-        ArrayList<Especialidade> lstEspecialidades) {
+    
+    public TelaAgendamento(TelaPrincipal telaPrincipal, ClienteRegistro regClientes,
+        EspecialidadeRegistro regEspecialidades,
+        ExameRegistro regExames, MedicoRegistro regMedicos,
+        AgendamentoConsultaRegistro regAgendamentoConsultas,
+        AgendamentoExameRegistro regAgendamentoExames) {
         
         this.telaPrincipal = telaPrincipal;
-        this.lstCliente = lstCliente;
-        this.lstMedicos = lstMedicos;
-        this.lstExames = lstExames;
-        this.lstEspecialidades = lstEspecialidades;
+        
+        this.regClientes = regClientes;
+        this.regEspecialidades = regEspecialidades;
+        this.regExames = regExames;
+        this.regMedicos = regMedicos;
+        this.regAgendamentoConsultas = regAgendamentoConsultas;
+        this.regAgendamentoExames = regAgendamentoExames;
          
         frame = new FrameSistema("Clínica Saracura - Agendamento de Exames");
         frame.setLayout(new GridBagLayout());
@@ -81,9 +94,10 @@ public class TelaAgendamento {
         btnCancelar = new JButton("Cancelar");
         btnConfirmar = new JButton("Continuar");
         
-        pnlCliente = new PainelClienteAgendamento(this, lstCliente);
-        pnlMedico = new PainelMedicoAtendimento(this, lstMedicos, lstEspecialidades);
-        pnlExame = new PainelExameAtendimento(this, lstExames);
+        pnlCliente = new PainelClienteAgendamento(this, regClientes);
+        pnlMedico = new PainelMedicoAtendimento(this, regMedicos, regEspecialidades);
+        pnlExame = new PainelExameAtendimento(this, regExames);
+        pnlFinalizacao = new PainelFinalizacaoAgendamento(this, regAgendamentoConsultas, regAgendamentoExames);
         
         pnlAtendimento = new JPanel();
         pnlAtendimento.setBorder(BorderFactory.createTitledBorder("Atendimento"));
@@ -164,6 +178,7 @@ public class TelaAgendamento {
         
         frame.add(pnlCliente);
         frame.add(pnlAtendimento);
+        frame.add(pnlFinalizacao);
 
         //frame.add(pnlCampos);
         //frame.pack();

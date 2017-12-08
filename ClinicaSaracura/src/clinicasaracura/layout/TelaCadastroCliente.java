@@ -25,10 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.text.MaskFormatter;
 
-/**
- *
- * @author eliane
- */
 public class TelaCadastroCliente {
     private Cliente cliente;
     

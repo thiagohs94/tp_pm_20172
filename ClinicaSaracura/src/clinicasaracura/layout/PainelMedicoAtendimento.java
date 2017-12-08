@@ -7,6 +7,9 @@ package clinicasaracura.layout;
 
 import clinicasaracura.modelo.Especialidade;
 import clinicasaracura.modelo.Medico;
+import clinicasaracura.registro.EspecialidadeRegistro;
+import clinicasaracura.registro.MedicoRegistro;
+import clinicasaracura.registro.Registro;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -42,15 +45,16 @@ public class PainelMedicoAtendimento extends JPanel{
     private JList lstMedicos;
     private JPanel pnlBusca;
     private JPanel pnlBotoes;
-    private ArrayList<Medico> arrayMedicos;
-    private ArrayList<Especialidade> arrayEspecialidades;
+    
+    private MedicoRegistro regMedicos;
+    private EspecialidadeRegistro regEspecialidades;
     
     public PainelMedicoAtendimento(TelaAgendamento telaPai,
-        ArrayList<Medico> arrayMedicos,
-        ArrayList<Especialidade> arrayEspecialidades) {
+        MedicoRegistro regMedicos,
+        EspecialidadeRegistro regEspecialidades) {
         super();
-        this.arrayMedicos = arrayMedicos;
-        this.arrayEspecialidades = arrayEspecialidades;
+        this.regMedicos = regMedicos;
+        this.regEspecialidades = regEspecialidades;
         this.telaPai = telaPai;
         
         
@@ -122,7 +126,7 @@ public class PainelMedicoAtendimento extends JPanel{
     }
     
     private void configurarComboBoxEspecialidades(){
-        cbEspecialidadeMedico = new JComboBox(new Vector<Especialidade> (arrayEspecialidades));
+        cbEspecialidadeMedico = new JComboBox(new Vector<Especialidade> (regEspecialidades.getListaRegistros()));
         cbEspecialidadeMedico.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -137,7 +141,7 @@ public class PainelMedicoAtendimento extends JPanel{
     }
     
     private void configurarListaMedicos(){
-        lstMedicos = new JList(new Vector<Medico>(arrayMedicos));
+        lstMedicos = new JList(new Vector<Medico>(regMedicos.getListaRegistros()));
         lstMedicos.setVisibleRowCount(10);
         lstMedicos.setCellRenderer(new DefaultListCellRenderer() {
             @Override
@@ -162,14 +166,14 @@ public class PainelMedicoAtendimento extends JPanel{
         btnBuscarMedico.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Medico> result = telaPai.buscarMedicoEspec(cbEspecialidadeMedico.getSelectedIndex()+1);
+                ArrayList<Medico> result = regMedicos.buscarPorEspecialiade(cbEspecialidadeMedico.getSelectedIndex()+1);
                 if(result.isEmpty()){
                 lblNenhumResultado.setVisible(true);
                     lstMedicos.setVisible(false);
                 }
                 else{
-                    arrayMedicos = result;
-                    lstMedicos.setListData(new Vector<Medico>(arrayMedicos));
+
+                    lstMedicos.setListData(new Vector<Medico>(result));
                     lblNenhumResultado.setVisible(false);
                     lstMedicos.setVisible(true);
                 }

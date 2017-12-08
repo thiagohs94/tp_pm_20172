@@ -6,6 +6,7 @@
 package clinicasaracura.layout;
 
 import clinicasaracura.modelo.Exame;
+import clinicasaracura.registro.ExameRegistro;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -40,11 +41,11 @@ public class PainelExameAtendimento extends JPanel{
     private JList lstExames;
     private JPanel pnlBusca;
     private JPanel pnlBotoes;
-    private ArrayList<Exame> arrayExames;
+    private ExameRegistro regExames;
     
-    public PainelExameAtendimento(TelaAgendamento telaPai, ArrayList<Exame> arrayExames) {
+    public PainelExameAtendimento(TelaAgendamento telaPai, ExameRegistro regExames) {
         super();
-        this.arrayExames = arrayExames;
+        this.regExames = regExames;
         this.telaPai = telaPai;
         
         GroupLayout layout = new GroupLayout(this);
@@ -115,7 +116,7 @@ public class PainelExameAtendimento extends JPanel{
     }
     
     private void configurarListaExames(){
-        lstExames = new JList(new Vector<Exame>(arrayExames));
+        lstExames = new JList(new Vector<Exame>(regExames.getListaRegistros()));
         lstExames.setVisibleRowCount(10);
         lstExames.setCellRenderer(new DefaultListCellRenderer() {
             @Override
@@ -140,15 +141,13 @@ public class PainelExameAtendimento extends JPanel{
         btnBuscarExame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Exame> result = 
-                    telaPai.buscarExame(txtNomeExame.getText());
+                ArrayList<Exame> result = regExames.buscarPorNome(txtNomeExame.getText());
                 if(result.isEmpty()){
                     lblNenhumResultado.setVisible(true);
                     lstExames.setVisible(false);
                 }
                 else{
-                    arrayExames = result;
-                    lstExames.setListData(new Vector<Exame>(arrayExames));
+                    lstExames.setListData(new Vector<Exame>(result));
                     lblNenhumResultado.setVisible(false);
                     lstExames.setVisible(true);
                 }

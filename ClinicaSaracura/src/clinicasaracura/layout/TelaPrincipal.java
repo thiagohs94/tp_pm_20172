@@ -35,11 +35,6 @@ public class TelaPrincipal {
     MedicoRegistro regMedicos;
     AgendamentoConsultaRegistro regAgendamentoConsultas;
     AgendamentoExameRegistro regAgendamentoExames;
-    
-    
-    //ExamesRegistro regExames;
-    
-    
 
     public TelaPrincipal(ClienteRegistro regClientes,
         EspecialidadeRegistro regEspecialidades,
@@ -57,27 +52,27 @@ public class TelaPrincipal {
         frame = new FrameSistema("Clínica Saracura");
         frame.setLayout(new FlowLayout());
         
-        texAreaExames = new JTextArea("");
+        texAreaExames = new JTextArea();
         scrollExames = new JScrollPane(texAreaExames);
         texAreaExames.setLineWrap(true);  
         texAreaExames.setWrapStyleWord(true); 
         scrollExames.setPreferredSize( new Dimension( 500, 500 ) );
         
-        texAreaMedicos = new JTextArea(regMedicos.toString());
+        texAreaMedicos = new JTextArea();
         scrollMedicos = new JScrollPane(texAreaMedicos);
         texAreaMedicos.setLineWrap(true);  
         texAreaMedicos.setWrapStyleWord(true); 
         scrollMedicos.setPreferredSize( new Dimension( 500, 500 ) );
         
-        texAreaClientes = new JTextArea(regClientes.toString());
+        texAreaClientes = new JTextArea();
         scrollClientes = new JScrollPane(texAreaClientes);
         texAreaClientes.setLineWrap(true);  
         texAreaClientes.setWrapStyleWord(true); 
         scrollClientes.setPreferredSize( new Dimension( 500, 500 ) );
         
-        botaoMedicos = new JButton("Médicos");
-        botaoClientes = new JButton("Clientes");
-        botaoExames = new JButton("Exames");
+        botaoMedicos = new JButton("Listar Médicos");
+        botaoClientes = new JButton("Listar Clientes");
+        botaoExames = new JButton("Listar Exames");
         botaoAdicionarCliente = new JButton("Adicionar Cliente");
         botaoAgendamento = new JButton("Agendamento");
         
@@ -98,10 +93,12 @@ public class TelaPrincipal {
     
     public void exibirAgendamento(){
         TelaAgendamento tela = new TelaAgendamento(this,
-            regClientes.getListaRegistros(),
-            regMedicos.getListaRegistros(),
-            regExames.getListaRegistros(),
-            regEspecialidades.getListaRegistros());
+            regClientes,
+            regEspecialidades,
+            regExames,
+            regMedicos,
+            regAgendamentoConsultas,
+            regAgendamentoExames);
     }
     
     public void habilitar(){
@@ -125,6 +122,7 @@ public class TelaPrincipal {
         botaoMedicos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                texAreaMedicos.setText(regMedicos.toString());
                 JOptionPane.showMessageDialog(null,
                     scrollMedicos,
                     "Clínica Saracura - Lista de Médicos",
@@ -135,7 +133,8 @@ public class TelaPrincipal {
         botaoExames.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                                JOptionPane.showMessageDialog(null,
+                texAreaExames.setText(regExames.toString());
+                JOptionPane.showMessageDialog(null,
                     scrollExames,
                     "Clínica Saracura - Lista de Exames",
                     JOptionPane.PLAIN_MESSAGE);

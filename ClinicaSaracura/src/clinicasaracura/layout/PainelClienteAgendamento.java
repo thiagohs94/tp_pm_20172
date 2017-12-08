@@ -6,6 +6,7 @@
 package clinicasaracura.layout;
 
 import clinicasaracura.modelo.Cliente;
+import clinicasaracura.registro.ClienteRegistro;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -41,11 +42,11 @@ public class PainelClienteAgendamento extends JPanel{
     private JList lstClientes;
     private JPanel pnlBusca;
     private JPanel pnlBotoes;
-    private ArrayList<Cliente> arrayClientes;
+    private ClienteRegistro regClientes;
     
-    public PainelClienteAgendamento(TelaAgendamento telaPai, ArrayList<Cliente> arrayClientes) {
+    public PainelClienteAgendamento(TelaAgendamento telaPai, ClienteRegistro regClientes) {
         super();
-        this.arrayClientes = arrayClientes;
+        this.regClientes = regClientes;
         this.telaPai = telaPai;
         
         GroupLayout layout = new GroupLayout(this);
@@ -118,7 +119,7 @@ public class PainelClienteAgendamento extends JPanel{
     }
     
     private void configurarListaClientes(){
-        lstClientes = new JList(new Vector<Cliente>(arrayClientes));
+        lstClientes = new JList(new Vector<Cliente>(regClientes.getListaRegistros()));
         lstClientes.setVisibleRowCount(10);
         lstClientes.setCellRenderer(new DefaultListCellRenderer() {
             @Override
@@ -143,15 +144,13 @@ public class PainelClienteAgendamento extends JPanel{
         btnBuscarCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Cliente> result = 
-                    telaPai.buscarCliente(txtNomeCliente.getText());
+                ArrayList<Cliente> result = regClientes.buscarPorNome(txtNomeCliente.getText());
                 if(result.isEmpty()){
                     lblNenhumResultado.setVisible(true);
                     lstClientes.setVisible(false);
                 }
                 else{
-                    arrayClientes = result;
-                    lstClientes.setListData(new Vector<Cliente>(arrayClientes));
+                    lstClientes.setListData(new Vector<Cliente>(result));
                     lblNenhumResultado.setVisible(false);
                     lstClientes.setVisible(true);
                 }
