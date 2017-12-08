@@ -135,7 +135,9 @@ public class PainelClienteAgendamento extends JPanel{
         lstClientes.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                txtInfoCliente.setText(((Cliente)lstClientes.getSelectedValue()).toString());
+                if(lstClientes.getSelectedValue() != null){
+                    txtInfoCliente.setText(((Cliente)lstClientes.getSelectedValue()).toString());
+                }
             }
         });
     }

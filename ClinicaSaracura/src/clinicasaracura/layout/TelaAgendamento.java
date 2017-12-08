@@ -20,6 +20,7 @@ import clinicasaracura.registro.ClienteRegistro;
 import clinicasaracura.registro.EspecialidadeRegistro;
 import clinicasaracura.registro.ExameRegistro;
 import clinicasaracura.registro.MedicoRegistro;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,7 +59,7 @@ public class TelaAgendamento {
     private ButtonGroup groupAtendimento;
     private JRadioButton rbConsulta, rbExame;
     
-    private JButton btnCancelar, btnConfirmar;    
+    private JButton btnCancelar;    
     
     ClienteRegistro regClientes;
     EspecialidadeRegistro regEspecialidades;
@@ -83,13 +84,12 @@ public class TelaAgendamento {
         this.regAgendamentoConsultas = regAgendamentoConsultas;
         this.regAgendamentoExames = regAgendamentoExames;
          
-        frame = new FrameSistema("Clínica Saracura - Agendamento de Exames");
+        frame = new FrameSistema("Clínica Saracura - Agendamento de Consultas e Exames");
         frame.setLayout(new GridBagLayout());
         
         lblTitulo = new JLabel("Escolha sua especialidade:");
         
-        btnCancelar = new JButton("Cancelar");
-        btnConfirmar = new JButton("Continuar");
+        btnCancelar = new JButton("Cancelar Agendamento");
         
         pnlCliente = new PainelClienteAgendamento(this, regClientes);
         pnlMedico = new PainelMedicoAtendimento(this, regMedicos, regEspecialidades);
@@ -155,9 +155,25 @@ public class TelaAgendamento {
         setarAcaoRadio();
         setarAcoesBotoes();
         
-        frame.add(pnlCliente);
-        frame.add(pnlAtendimento);
-        frame.add(pnlFinalizacao);
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weighty = 0;
+        frame.add(pnlCliente, c);
+        
+        c.gridx = 1;
+        frame.add(pnlAtendimento,c);
+        
+        c.gridx = 2;
+        frame.add(pnlFinalizacao,c);
+        
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 1;
+        c.weightx = 1;
+        frame.add(btnCancelar, c);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -204,13 +220,7 @@ public class TelaAgendamento {
             }
         });
         
-        btnConfirmar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                telaPrincipal.habilitar();
-                destruir();
-            }
-        });
+     
     }
     
     private void alterarTipoAtendimento(){
