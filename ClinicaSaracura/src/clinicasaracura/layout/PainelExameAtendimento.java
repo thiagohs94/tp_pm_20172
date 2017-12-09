@@ -37,7 +37,6 @@ public class PainelExameAtendimento extends JPanel{
     private JLabel lblNomeExame;
     private JLabel lblSelecionarExame;
     private JLabel lblNenhumResultado;
-    private JTextArea txtInfoExame;
     private JList lstExames;
     private JPanel pnlBusca;
     private JPanel pnlBotoes;
@@ -58,7 +57,6 @@ public class PainelExameAtendimento extends JPanel{
         lblNomeExame = new JLabel("Nome:");
         lblSelecionarExame = new JLabel("Selecione um exame para realizar um agendamento:");
         lblNenhumResultado = new JLabel("Nenhum resultado encontrado");
-        txtInfoExame = new JTextArea();
         btnBuscarExame = new JButton("Buscar");
         btnConfirmarExame = new JButton("Confirmar Exame");
         
@@ -85,7 +83,6 @@ public class PainelExameAtendimento extends JPanel{
                         .addComponent(lblNenhumResultado)
                         .addComponent(lblSelecionarExame)
                         .addComponent(lstExames)
-                        .addComponent(txtInfoExame)
                         .addComponent(pnlBotoes)
                     )
                 )
@@ -102,8 +99,6 @@ public class PainelExameAtendimento extends JPanel{
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lstExames))
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(txtInfoExame))
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(pnlBotoes))
         );
         
@@ -111,7 +106,6 @@ public class PainelExameAtendimento extends JPanel{
         add(lblNenhumResultado);
         add(lblSelecionarExame);
         add(lstExames);
-        add(txtInfoExame);
         add(pnlBotoes);
     }
     
@@ -128,13 +122,6 @@ public class PainelExameAtendimento extends JPanel{
                 return renderer;
             }
         });
-        
-        lstExames.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                txtInfoExame.setText(((Exame)lstExames.getSelectedValue()).toString());
-            }
-        });
     }
     
     public void setarAcoesBotoes(){
@@ -145,11 +132,13 @@ public class PainelExameAtendimento extends JPanel{
                 if(result.isEmpty()){
                     lblNenhumResultado.setVisible(true);
                     lstExames.setVisible(false);
+                    lblSelecionarExame.setVisible(false);
                 }
                 else{
                     lstExames.setListData(new Vector<Exame>(result));
                     lblNenhumResultado.setVisible(false);
                     lstExames.setVisible(true);
+                    lblSelecionarExame.setVisible(true);
                 }
             }
         });
@@ -175,7 +164,6 @@ public class PainelExameAtendimento extends JPanel{
         lblNomeExame.setEnabled(status);
         lblSelecionarExame.setEnabled(status);
         lblNenhumResultado.setEnabled(status);
-        txtInfoExame.setEnabled(status);
         lstExames.setEnabled(status);
     }
     

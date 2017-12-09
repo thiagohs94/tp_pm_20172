@@ -14,6 +14,8 @@ import clinicasaracura.registro.EspecialidadeRegistro;
 import clinicasaracura.registro.ExameRegistro;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -35,6 +37,8 @@ public class TelaPrincipal {
     MedicoRegistro regMedicos;
     AgendamentoConsultaRegistro regAgendamentoConsultas;
     AgendamentoExameRegistro regAgendamentoExames;
+    
+    TelaAgendamento telaAgendamento;
 
     public TelaPrincipal(ClienteRegistro regClientes,
         EspecialidadeRegistro regEspecialidades,
@@ -49,8 +53,10 @@ public class TelaPrincipal {
         this.regAgendamentoConsultas = regAgendamentoConsultas;
         this.regAgendamentoExames = regAgendamentoExames;
         
+        telaAgendamento = null;
+        
         frame = new FrameSistema("Clínica Saracura");
-        frame.setLayout(new FlowLayout());
+        frame.setLayout(new GridBagLayout());
         
         texAreaExames = new JTextArea();
         scrollExames = new JScrollPane(texAreaExames);
@@ -76,11 +82,45 @@ public class TelaPrincipal {
         botaoAdicionarCliente = new JButton("Adicionar Cliente");
         botaoAgendamento = new JButton("Agendamento");
         
-        frame.add(botaoMedicos);
-        frame.add(botaoClientes);
-        frame.add(botaoExames);
-        frame.add(botaoAdicionarCliente);
-        frame.add(botaoAgendamento);
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.weighty = 1;
+        /*c.anchor = GridBagConstraints.PAGE_START;
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weighty = 0;
+        frame.add(pnlCliente, c);
+        
+        c.gridx = 1;
+        frame.add(pnlAtendimento,c);
+        
+        c.gridx = 2;
+        frame.add(pnlFinalizacao,c);
+        
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 1;
+        c.weightx = 1;
+        frame.add(btnCancelar, c);*/
+        c.gridx = 0;
+        c.gridy = 0;
+        frame.add(botaoMedicos,c);
+        c.gridx = 0;
+        c.gridy = 1;
+        frame.add(botaoExames,c);
+        c.gridx = 1;
+        c.gridy = 0;
+        frame.add(botaoAdicionarCliente,c);
+        c.gridx = 1;
+        c.gridy = 1;
+        frame.add(botaoClientes,c);
+        
+        c.gridx = 2;
+        c.gridy = 0;
+        frame.add(botaoAgendamento,c);
         
         setarAcoesBotoes();
         
@@ -92,7 +132,7 @@ public class TelaPrincipal {
     }
     
     public void exibirAgendamento(){
-        TelaAgendamento tela = new TelaAgendamento(this,
+        telaAgendamento = new TelaAgendamento(this,
             regClientes,
             regEspecialidades,
             regExames,
@@ -105,8 +145,15 @@ public class TelaPrincipal {
         frame.setEnabled(true);
     }
     
+    public void setarVisibilidade(boolean visivel){
+        frame.setVisible(visivel);
+    }
+    
     public void salvarCliente(Cliente cliente){
         regClientes.salvar(cliente);
+        if(telaAgendamento != null){
+            telaAgendamento.atualizarClientes(regClientes);
+        }
     }
     
     public int proxIdCliente(){
@@ -163,8 +210,8 @@ public class TelaPrincipal {
         botaoAgendamento.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setEnabled(false);
                 exibirAgendamento();
+                setarVisibilidade(false);
             }
         });
     }

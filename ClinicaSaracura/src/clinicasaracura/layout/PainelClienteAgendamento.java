@@ -37,6 +37,7 @@ public class PainelClienteAgendamento extends JPanel{
     private JButton btnConfirmarCliente;
     private JLabel lblNomeCliente;
     private JLabel lblSelecionarCliente;
+    private JLabel lblInfoCliente;
     private JLabel lblNenhumResultado;
     private JTextArea txtInfoCliente;
     private JList lstClientes;
@@ -58,15 +59,17 @@ public class PainelClienteAgendamento extends JPanel{
         txtNomeCliente = new JTextField(20);
         lblNomeCliente = new JLabel("Nome:");
         lblSelecionarCliente = new JLabel("Selecione um cliente para realizar um agendamento:");
-        lblNenhumResultado = new JLabel("Nenhum resultado encontrado");
+        lblNenhumResultado = new JLabel("Nenhum resultado encontrado.");
+        lblInfoCliente = new JLabel("Informações do Cliente:");
         txtInfoCliente = new JTextArea();
         btnBuscarCliente = new JButton("Buscar");
         btnAddCliente = new JButton("Adicionar novo Cliente");
         btnConfirmarCliente = new JButton("Confirmar Cliente");
         
         lblNenhumResultado.setVisible(false);
-        
-
+        lblInfoCliente.setVisible(false);
+        txtInfoCliente.setVisible(false);
+        btnConfirmarCliente.setEnabled(false);
         
         configurarListaClientes();
         setarAcoesBotoes();
@@ -88,6 +91,7 @@ public class PainelClienteAgendamento extends JPanel{
                         .addComponent(lblNenhumResultado)
                         .addComponent(lblSelecionarCliente)
                         .addComponent(lstClientes)
+                        .addComponent(lblInfoCliente)
                         .addComponent(txtInfoCliente)
                         .addComponent(pnlBotoes)
                     )
@@ -105,6 +109,8 @@ public class PainelClienteAgendamento extends JPanel{
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lstClientes))
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblInfoCliente))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(txtInfoCliente))
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(pnlBotoes))
@@ -114,6 +120,7 @@ public class PainelClienteAgendamento extends JPanel{
         add(lblNenhumResultado);
         add(lblSelecionarCliente);
         add(lstClientes);
+        add(lblInfoCliente);
         add(txtInfoCliente);
         add(pnlBotoes);
     }
@@ -137,6 +144,9 @@ public class PainelClienteAgendamento extends JPanel{
             public void valueChanged(ListSelectionEvent e) {
                 if(lstClientes.getSelectedValue() != null){
                     txtInfoCliente.setText(((Cliente)lstClientes.getSelectedValue()).toString());
+                    btnConfirmarCliente.setEnabled(true);
+                    txtInfoCliente.setVisible(true);
+                    lblInfoCliente.setVisible(true);
                 }
             }
         });
@@ -150,12 +160,17 @@ public class PainelClienteAgendamento extends JPanel{
                 if(result.isEmpty()){
                     lblNenhumResultado.setVisible(true);
                     lstClientes.setVisible(false);
+                    lblSelecionarCliente.setVisible(false);
                 }
                 else{
                     lstClientes.setListData(new Vector<Cliente>(result));
                     lblNenhumResultado.setVisible(false);
                     lstClientes.setVisible(true);
+                    lblSelecionarCliente.setVisible(true);
                 }
+                btnConfirmarCliente.setEnabled(false);
+                txtInfoCliente.setVisible(false);
+                lblInfoCliente.setVisible(false);
             }
         });
         
@@ -180,7 +195,13 @@ public class PainelClienteAgendamento extends JPanel{
         });
     }
     
+    public void atualizarClientes(ClienteRegistro regClientes){
+        this.regClientes = regClientes;
+        lstClientes.setListData(new Vector<Cliente>(regClientes.getListaRegistros()));
+    }
+    
     public void setarHabilitado(boolean status){
+        setEnabled(status);
         txtNomeCliente.setEnabled(status);
         btnBuscarCliente.setEnabled(status);
         btnAddCliente.setEnabled(status);
@@ -188,6 +209,7 @@ public class PainelClienteAgendamento extends JPanel{
         lblNomeCliente.setEnabled(status);
         lblSelecionarCliente.setEnabled(status);
         lblNenhumResultado.setEnabled(status);
+        lblInfoCliente.setEnabled(status);
         txtInfoCliente.setEnabled(status);
         lstClientes.setEnabled(status);
     }

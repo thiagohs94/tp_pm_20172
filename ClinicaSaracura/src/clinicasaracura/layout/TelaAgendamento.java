@@ -215,8 +215,8 @@ public class TelaAgendamento {
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                telaPrincipal.habilitar();
-                destruir();
+                telaPrincipal.setarVisibilidade(true);
+                frame.dispose();
             }
         });
         
@@ -234,12 +234,14 @@ public class TelaAgendamento {
         }
     }
     
-    private void destruir(){
-        frame.dispose();
-    }
     
     public void adicionarNovoCliente(){
         telaPrincipal.exibirCadastroCliente();
+    }
+    
+    public void atualizarClientes(ClienteRegistro regClientes){
+        this.regClientes = regClientes;
+        pnlCliente.atualizarClientes(regClientes);
     }
     
     public void confirmarCliente(Cliente cliente){
@@ -313,15 +315,14 @@ public class TelaAgendamento {
 
             JOptionPane.showMessageDialog(null, "Agendamento salvo com sucesso",
                 "Clínica Saracura", JOptionPane.INFORMATION_MESSAGE);
-            telaPrincipal.habilitar();
-            frame.dispose();
         }
         else{
             JOptionPane.showMessageDialog(null, "Este agendamento não foi autorizado",
                 "Clínica Saracura", JOptionPane.ERROR_MESSAGE);
-            telaPrincipal.habilitar();
-            frame.dispose();
+
         }
+        telaPrincipal.setarVisibilidade(true);
+        frame.dispose();
         
     }
 }
