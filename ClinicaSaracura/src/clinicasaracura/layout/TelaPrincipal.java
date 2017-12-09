@@ -87,24 +87,6 @@ public class TelaPrincipal {
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
         c.weighty = 1;
-        /*c.anchor = GridBagConstraints.PAGE_START;
-        c.fill = GridBagConstraints.VERTICAL;
-        c.gridx = 0;
-        c.gridy = 0;
-        c.weighty = 0;
-        frame.add(pnlCliente, c);
-        
-        c.gridx = 1;
-        frame.add(pnlAtendimento,c);
-        
-        c.gridx = 2;
-        frame.add(pnlFinalizacao,c);
-        
-        c.fill = GridBagConstraints.CENTER;
-        c.gridx = 0;
-        c.gridy = 1;
-        c.weightx = 1;
-        frame.add(btnCancelar, c);*/
         c.gridx = 0;
         c.gridy = 0;
         frame.add(botaoMedicos,c);
