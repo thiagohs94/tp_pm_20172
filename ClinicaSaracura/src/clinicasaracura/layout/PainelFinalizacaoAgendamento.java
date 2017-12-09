@@ -160,13 +160,21 @@ public class PainelFinalizacaoAgendamento extends JPanel {
     }
     
     private void configurarComboBoxes(){
-        Integer[] dias = new Integer[30];
+        Integer[] dias = new Integer[20];
         Integer[] horarios = new Integer[18];
         Integer[] tiposAtendimento = new Integer[3];
         Integer[] tiposPagamento = new Integer[3];
         
+        int cont = 0;
         for(int i=0;i<30;i++){
-            dias[i] = i+1;
+            
+            if(i+1 != 6 && i+1 != 7
+                && i+1 != 13 && i+1 != 14
+                && i+1 != 20 && i+1 != 21
+                && i<26){
+                dias[cont] = i+1;
+                cont++;
+            }
             if(i<18){
                 horarios[i] = i+1;
             }

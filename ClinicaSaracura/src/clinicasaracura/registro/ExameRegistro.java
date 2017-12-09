@@ -62,7 +62,7 @@ public class ExameRegistro extends Registro {
     public ArrayList<Exame> buscarPorNome(String nome){
         ArrayList<Exame> result = new ArrayList();
         for(int i=0;i<lista.size();i++){
-            if(((Exame)lista.get(i)).getNome().contains(nome)){
+            if(((Exame)lista.get(i)).getNome().toLowerCase().contains(nome.toLowerCase())){
                 result.add((Exame)lista.get(i));
             }
         }
