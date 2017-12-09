@@ -25,7 +25,7 @@ import javax.swing.JTextArea;
 
 public class TelaPrincipal {
     FrameSistema frame;
-    JButton botaoMedicos, botaoClientes, botaoExames, botaoAdicionarCliente, botaoAgendamento;
+    JButton botaoMedicos, botaoClientes, botaoExames, botaoAdicionarCliente, botaoAgendamento, botaoCancelarAgendamento;
     JScrollPane scrollExames, scrollMedicos, scrollClientes;
     JTextArea texAreaExames, texAreaMedicos, texAreaClientes;
     
@@ -75,12 +75,14 @@ public class TelaPrincipal {
         botaoExames = new JButton("Listar Exames");
         botaoAdicionarCliente = new JButton("Adicionar Cliente");
         botaoAgendamento = new JButton("Agendamento");
+        botaoCancelarAgendamento = new JButton("Cancelar Agendamento");
         
         frame.add(botaoMedicos);
         frame.add(botaoClientes);
         frame.add(botaoExames);
         frame.add(botaoAdicionarCliente);
         frame.add(botaoAgendamento);
+        frame.add(botaoCancelarAgendamento);
         
         setarAcoesBotoes();
         
@@ -95,6 +97,14 @@ public class TelaPrincipal {
         TelaAgendamento tela = new TelaAgendamento(this,
             regClientes,
             regEspecialidades,
+            regExames,
+            regMedicos,
+            regAgendamentoConsultas,
+            regAgendamentoExames);
+    }
+    
+    public void exibirCancelarAgendamento(){
+        TelaCancelarAgendamento tela = new TelaCancelarAgendamento(this,
             regExames,
             regMedicos,
             regAgendamentoConsultas,
@@ -167,5 +177,14 @@ public class TelaPrincipal {
                 exibirAgendamento();
             }
         });
+        
+        botaoCancelarAgendamento.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setEnabled(false);
+                exibirCancelarAgendamento();
+            }
+        });
+        
     }
 }
