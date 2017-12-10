@@ -59,7 +59,7 @@ public class TelaCancelarAgendamento {
     private ButtonGroup groupAtendimento;
     private JRadioButton rbConsulta, rbExame;
     
-    private JButton btnCancelar;    
+    private JButton btnCancelar, btnTrocarCliente;    
     
     AgendamentoConsultaRegistro regAgendamentoConsultas;
     AgendamentoExameRegistro regAgendamentoExames;
@@ -84,6 +84,7 @@ public class TelaCancelarAgendamento {
         lblTitulo = new JLabel("Escolha sua especialidade:");
         
         btnCancelar = new JButton("Cancelar");
+        btnTrocarCliente = new JButton("Alterar Cliente");
         
         pnlCliente = new PainelClienteCancelCons(this, regClientes);
         pnlConsulta = new PainelCancelarConsulta(this, regAgendamentoConsultas);
@@ -116,6 +117,7 @@ public class TelaCancelarAgendamento {
                             .addComponent(rbExame)))
                         .addComponent(pnlConsulta)
                         .addComponent(pnlExame)
+                        .addComponent(btnTrocarCliente)
                     )
                 )
             )
@@ -133,6 +135,8 @@ public class TelaCancelarAgendamento {
                 .addComponent(pnlConsulta))
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(pnlExame))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(btnTrocarCliente))
         );
         
         pnlAtendimento.add(lblAtendimento);
@@ -140,8 +144,9 @@ public class TelaCancelarAgendamento {
         pnlAtendimento.add(rbExame);
         pnlAtendimento.add(pnlConsulta);
         pnlAtendimento.add(pnlExame);
+        pnlAtendimento.add(btnTrocarCliente);
         
-        setarPainelAtendimentoHabilitado(true);
+        setarPainelAtendimentoHabilitado(false);
         pnlExame.setVisible(false);
         
         setarAcaoRadio();
@@ -181,6 +186,7 @@ public class TelaCancelarAgendamento {
         rbExame.setEnabled(status);
         pnlConsulta.setarHabilitado(status);
         pnlExame.setarHabilitado(status);
+        btnTrocarCliente.setEnabled(status);
     }
     
     private void setarAcaoRadio(){
@@ -220,6 +226,13 @@ public class TelaCancelarAgendamento {
             }
         });
         
+        btnTrocarCliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setarPainelAtendimentoHabilitado(false);
+                pnlCliente.setarHabilitado(true);
+            }
+        });
      
     }
      
@@ -229,11 +242,19 @@ public class TelaCancelarAgendamento {
     
       public void confirmarCliente(Cliente cliente){
           this.cliente = cliente;
-          pnlConsulta.atualizarLista(cliente);
+          pnlExame.atualizarLista();
+          pnlConsulta.atualizarLista();
+          setarPainelAtendimentoHabilitado(true);
+          pnlCliente.setarHabilitado(false);
+          
+      }
+      
+      public Cliente getCliente(){
+          return this.cliente;
       }
       
       
-      public void removeLinhaDoArquivo(String file, String lineToRemove) {
+     public void removeLinhaDoArquivo(String file, String lineToRemove) {
 
     try {
 

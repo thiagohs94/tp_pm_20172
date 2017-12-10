@@ -148,8 +148,8 @@ public class PainelCancelarExame extends JPanel {
                 
                 telaPai.removeLinhaDoArquivo("arquivos/agendamentos_exames", cancelarExame( ((AgendamentoExame)lstExames.getSelectedValue()) ) );
                 JOptionPane.showMessageDialog(null, "Consulta cancelada com sucesso");
+                atualizarLista();
                 
-                    
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Operação Cancelada");
@@ -178,6 +178,27 @@ public class PainelCancelarExame extends JPanel {
                 + ";" + Integer.toString( exameAgend.getExame().getId() );
         
         return Texto;
+    }
+    
+    
+    public void atualizarLista(){
+    
+        ArrayList<AgendamentoExame> result = ((AgendamentoExame)lstExames.getModel().getElementAt(0)).buscaPorCliente(telaPai.getCliente(), regAgendamentoExames);
+        if(result.isEmpty()){
+        lblNenhumResultado.setVisible(true);
+        lstExames.setVisible(false);
+        lblSelecionarExames.setVisible(false);
+        txtInfoExame.setVisible(false);
+        btnConfirmarExame.setEnabled(false);
+        }
+        else{
+            lstExames.setListData(new Vector<AgendamentoExame>(result));
+            lblNenhumResultado.setVisible(false);
+            lstExames.setVisible(true);
+            btnConfirmarExame.setEnabled(true);
+            txtInfoExame.setVisible(true);
+        }
+        
     }
     
     

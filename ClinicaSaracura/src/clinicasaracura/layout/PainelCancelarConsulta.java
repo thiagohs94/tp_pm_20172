@@ -153,7 +153,7 @@ public class PainelCancelarConsulta extends JPanel{
                 
                     telaPai.removeLinhaDoArquivo("arquivos/agendamentos_consultas", cancelarConsulta(((AgendamentoConsulta)lstConsultas.getSelectedValue())) );
                     JOptionPane.showMessageDialog(null, "Consulta cancelada com sucesso");
-                    
+                    atualizarLista();
                     
                 }
                 else
@@ -185,14 +185,23 @@ public class PainelCancelarConsulta extends JPanel{
     }
     
     
-   /*private void filtraLista( Cliente cliente ) {
-                
-                JList Result = new JList(new Vector<AgendamentoConsulta>());
+   public void atualizarLista(){
+    
+        ArrayList<AgendamentoConsulta> result = ((AgendamentoConsulta)lstConsultas.getModel().getElementAt(0)).buscaPorCliente(telaPai.getCliente(), regAgendamentoConsultas);
+        if(result.isEmpty()){
+        lblNenhumResultado.setVisible(true);
+        lstConsultas.setVisible(false);
+        lblSelecionarExames.setVisible(false);
+        txtInfoConsultas.setVisible(false);
+        btnConfirmarExame.setEnabled(false);
+        }
+        else{
+            lstConsultas.setListData(new Vector<AgendamentoConsulta>(result));
+            lblNenhumResultado.setVisible(false);
+            lstConsultas.setVisible(true);
+            btnConfirmarExame.setEnabled(true);
+            txtInfoConsultas.setVisible(true);
+        }
         
-                for (int i = 0; i < lstConsultas.getModel().getSize(); i++ ){
-                    if( (AgendamentoConsulta)lstConsultas   )
-                }
-                
-            }
-    */
+    }
 }
