@@ -6,7 +6,6 @@
 package clinicasaracura.modelo;
 
 import clinicasaracura.registro.AutorizacaoRegistro;
-import clinicasaracura.registro.Registro;
 import java.util.Random;
 
 

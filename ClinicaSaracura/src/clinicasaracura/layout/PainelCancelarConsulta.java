@@ -7,15 +7,12 @@ package clinicasaracura.layout;
 
 import clinicasaracura.modelo.Agendamento;
 import clinicasaracura.modelo.AgendamentoConsulta;
+import clinicasaracura.modelo.AgendamentoExame;
 import clinicasaracura.modelo.Cliente;
-import clinicasaracura.modelo.Exame;
 import clinicasaracura.registro.AgendamentoConsultaRegistro;
-import clinicasaracura.registro.ExameRegistro;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.BorderFactory;
@@ -27,7 +24,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -65,7 +61,7 @@ public class PainelCancelarConsulta extends JPanel{
         btnConfirmarExame = new JButton("Cancelar Consulta");
         
         lblNenhumResultado.setVisible(false);
-        
+        btnConfirmarExame.setEnabled(false);
 
         
         configurarListaConsultas();
@@ -118,7 +114,7 @@ public class PainelCancelarConsulta extends JPanel{
                 Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 if (renderer instanceof JLabel && value instanceof AgendamentoConsulta) {
                     String texto = new String();
-                    texto = "Dia: " + Integer.toString(  ((AgendamentoConsulta) value).getDia() );
+                    texto = "Dia: " + ((AgendamentoConsulta) value).getDia() + " Horário: " + Agendamento.getTextoHorario(((AgendamentoConsulta) value).getHorario());
                     ((JLabel) renderer).setText(  texto ) ;
                 }
                 return renderer;
@@ -129,11 +125,7 @@ public class PainelCancelarConsulta extends JPanel{
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if(lstConsultas.getSelectedValue() != null){
-                    String texto = new String();
-                    texto = "Dia: " + Integer.toString(  ((AgendamentoConsulta)lstConsultas.getSelectedValue()).getDia() ) /* + 
-                            "\nHorário: " + ((AgendamentoConsulta)lstConsultas.getSelectedValue()).getTextoHorario( ((AgendamentoConsulta)lstConsultas.getSelectedValue()).getHorario() )*/
-                            ;
-                    txtInfoConsultas.setText( texto );
+                    txtInfoConsultas.setText( ((AgendamentoConsulta)lstConsultas.getSelectedValue()).toString());
                 }
             }
         });
@@ -150,10 +142,9 @@ public class PainelCancelarConsulta extends JPanel{
                 if ( JOptionPane.showOptionDialog(null, "Você quer cancelar essa consulta?",
                     "Cancelar Consulta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                      null, options, options[0]) == 0 ){
-                    AgendamentoConsulta agend = new AgendamentoConsulta();
-                    agend.removeLinhaDoArquivo("arquivos/agendamentos_consultas", cancelarConsulta(((AgendamentoConsulta)lstConsultas.getSelectedValue())) );
+                    regAgendamentoConsultas.remover((AgendamentoConsulta)lstConsultas.getSelectedValue());
                     JOptionPane.showMessageDialog(null, "Consulta cancelada com sucesso");
-                    atualizarLista();
+                    atualizarLista(telaPai.getCliente());
                     
                 }
                 else
@@ -170,30 +161,16 @@ public class PainelCancelarConsulta extends JPanel{
         lblNenhumResultado.setEnabled(status);
         txtInfoConsultas.setEnabled(status);
         lstConsultas.setEnabled(status);
-    }
+    }    
     
-    
-    private String cancelarConsulta (AgendamentoConsulta ConsAgend){
-        
-        String Texto = new String();
-        
-        Texto = Integer.toString( ConsAgend.getDia() ) + ";" + Integer.toString( ConsAgend.getHorario() ) + ";" 
-                + Integer.toString( ConsAgend.getCliente().getId() ) + ";" + Integer.toString( ConsAgend.getTipo() )
-                + ";" + Integer.toString( ConsAgend.getMedico().getId() ) ;
-        
-        return Texto;
-    }
-    
-    
-   public void atualizarLista(){
-    
-        ArrayList<AgendamentoConsulta> result = ((AgendamentoConsulta)lstConsultas.getModel().getElementAt(0)).buscaPorCliente(telaPai.getCliente(), regAgendamentoConsultas);
+   public void atualizarLista(Cliente cliente){
+        ArrayList<AgendamentoConsulta> result = regAgendamentoConsultas.buscarPorCliente(cliente.getId());
         if(result.isEmpty()){
-        lblNenhumResultado.setVisible(true);
-        lstConsultas.setVisible(false);
-        lblSelecionarExames.setVisible(false);
-        txtInfoConsultas.setVisible(false);
-        btnConfirmarExame.setEnabled(false);
+            lblNenhumResultado.setVisible(true);
+            lstConsultas.setVisible(false);
+            lblSelecionarExames.setVisible(false);
+            txtInfoConsultas.setVisible(false);
+            btnConfirmarExame.setEnabled(false);
         }
         else{
             lstConsultas.setListData(new Vector<AgendamentoConsulta>(result));

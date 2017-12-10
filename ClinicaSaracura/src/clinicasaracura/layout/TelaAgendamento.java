@@ -11,7 +11,6 @@ import clinicasaracura.modelo.AgendamentoConsulta;
 import clinicasaracura.modelo.AgendamentoExame;
 import clinicasaracura.modelo.Autorizacao;
 import clinicasaracura.modelo.Cliente;
-import clinicasaracura.modelo.Especialidade;
 import clinicasaracura.modelo.Exame;
 import clinicasaracura.modelo.Medico;
 import clinicasaracura.registro.AgendamentoConsultaRegistro;
@@ -26,7 +25,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -35,7 +33,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
 public class TelaAgendamento {    
     private Cliente clienteEscolhido;

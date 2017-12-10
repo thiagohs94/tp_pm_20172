@@ -5,7 +5,6 @@
  */
 package clinicasaracura;
 
-import clinicasaracura.layout.TelaCadastroCliente;
 import clinicasaracura.layout.TelaPrincipal;
 import clinicasaracura.registro.AgendamentoConsultaRegistro;
 import clinicasaracura.registro.AgendamentoExameRegistro;

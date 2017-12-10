@@ -6,7 +6,6 @@
 package clinicasaracura.registro;
 
 import clinicasaracura.modelo.Exame;
-import clinicasaracura.modelo.Medico;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

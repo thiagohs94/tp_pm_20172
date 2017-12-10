@@ -6,10 +6,8 @@
 package clinicasaracura.registro;
 
 import clinicasaracura.modelo.Especialidade;
-import clinicasaracura.modelo.Medico;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EspecialidadeRegistro extends Registro {

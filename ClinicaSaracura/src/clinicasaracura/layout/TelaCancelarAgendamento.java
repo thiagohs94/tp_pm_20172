@@ -6,8 +6,6 @@
 package clinicasaracura.layout;
 
 import clinicasaracura.modelo.Cliente;
-import clinicasaracura.modelo.Exame;
-import clinicasaracura.modelo.Medico;
 import clinicasaracura.registro.AgendamentoConsultaRegistro;
 import clinicasaracura.registro.AgendamentoExameRegistro;
 import clinicasaracura.registro.ClienteRegistro;
@@ -20,13 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -221,7 +212,7 @@ public class TelaCancelarAgendamento {
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                telaPrincipal.habilitar();
+                telaPrincipal.setarVisibilidade(true);
                 destruir();
             }
         });
@@ -242,10 +233,13 @@ public class TelaCancelarAgendamento {
     
       public void confirmarCliente(Cliente cliente){
           this.cliente = cliente;
-          pnlExame.atualizarLista();
-          pnlConsulta.atualizarLista();
           setarPainelAtendimentoHabilitado(true);
           pnlCliente.setarHabilitado(false);
+          
+          pnlExame.atualizarLista(cliente);
+          pnlConsulta.atualizarLista(cliente);
+          
+          
           
       }
       

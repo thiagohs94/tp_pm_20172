@@ -5,11 +5,6 @@
  */
 package clinicasaracura.modelo;
 
-import clinicasaracura.registro.AgendamentoExameRegistro;
-import java.util.ArrayList;
-import java.util.Vector;
-import javax.swing.JList;
-
 public class AgendamentoExame extends Agendamento{
     private Exame exame;
     
@@ -30,18 +25,9 @@ public class AgendamentoExame extends Agendamento{
         this.exame = exame;
     }
     
-    
-    public ArrayList<AgendamentoExame> buscaPorCliente( Cliente cliente, AgendamentoExameRegistro regAgendamentoExames){
-        ArrayList<AgendamentoExame> result = new ArrayList();
-        JList lstExames = new JList(new Vector<AgendamentoExame>(regAgendamentoExames.getListaRegistros()));
-        
-        for(int i=0; i< lstExames.getModel().getSize() ;i++){
-            
-            if( ((AgendamentoExame)lstExames.getModel().getElementAt(i)).getCliente().getId() == cliente.getId() ){
-                result.add( ((AgendamentoExame)lstExames.getModel().getElementAt(i)) );
-            }
-        }
-        return result;
+    @Override
+    public String toString() {
+        return super.toString() + "\nExame: " + exame.getNome();
     }
     
 }
