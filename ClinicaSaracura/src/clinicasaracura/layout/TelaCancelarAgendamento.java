@@ -149,6 +149,7 @@ public class TelaCancelarAgendamento {
         c.gridx = 0;
         c.gridy = 0;
         c.weighty = 0;
+        c.weightx = 1;
         frame.add(pnlCliente, c);
         
         
@@ -156,6 +157,7 @@ public class TelaCancelarAgendamento {
         c.gridx = 1;
         c.gridy = 0;
         c.weighty = 0;
+        c.weightx = 1;
         frame.add(pnlAtendimento, c);
         
         

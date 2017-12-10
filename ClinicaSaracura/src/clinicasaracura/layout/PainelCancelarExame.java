@@ -135,20 +135,24 @@ public class PainelCancelarExame extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                Object[] options = {"Sim", "Não"};
-                
-                if ( JOptionPane.showOptionDialog(null, "Você quer cancelar essa consulta?",
-                    "Cancelar Consulta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-                     null, options, options[0]) == 0 ){
-                
-                regAgendamentoExames.remover((AgendamentoExame)lstExames.getSelectedValue());
-                JOptionPane.showMessageDialog(null, "Consulta cancelada com sucesso");
-                atualizarLista(telaPai.getCliente());
-                
+                if(lstExames.getSelectedValue() != null){
+                    Object[] options = {"Sim", "Não"};
+
+                    if ( JOptionPane.showOptionDialog(null, "Você quer cancelar essa consulta?",
+                        "Cancelar Consulta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                         null, options, options[0]) == 0 ){
+
+                    regAgendamentoExames.remover((AgendamentoExame)lstExames.getSelectedValue());
+                    JOptionPane.showMessageDialog(null, "Consulta cancelada com sucesso");
+                    atualizarLista(telaPai.getCliente());
+
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null, "Operação Cancelada");
                 }
-                else
-                    JOptionPane.showMessageDialog(null, "Operação Cancelada");
-                
+                else{
+                    JOptionPane.showMessageDialog(null, "Selecione um exame para cancelar","Erro", JOptionPane.ERROR_MESSAGE);
+                }
                 
                 
                 
