@@ -150,8 +150,8 @@ public class PainelCancelarConsulta extends JPanel{
                 if ( JOptionPane.showOptionDialog(null, "Você quer cancelar essa consulta?",
                     "Cancelar Consulta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                      null, options, options[0]) == 0 ){
-                
-                    telaPai.removeLinhaDoArquivo("arquivos/agendamentos_consultas", cancelarConsulta(((AgendamentoConsulta)lstConsultas.getSelectedValue())) );
+                    AgendamentoConsulta agend = new AgendamentoConsulta();
+                    agend.removeLinhaDoArquivo("arquivos/agendamentos_consultas", cancelarConsulta(((AgendamentoConsulta)lstConsultas.getSelectedValue())) );
                     JOptionPane.showMessageDialog(null, "Consulta cancelada com sucesso");
                     atualizarLista();
                     

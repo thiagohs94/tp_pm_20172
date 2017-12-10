@@ -146,7 +146,8 @@ public class PainelCancelarExame extends JPanel {
                     "Cancelar Consulta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                      null, options, options[0]) == 0 ){
                 
-                telaPai.removeLinhaDoArquivo("arquivos/agendamentos_exames", cancelarExame( ((AgendamentoExame)lstExames.getSelectedValue()) ) );
+                AgendamentoExame agend = new AgendamentoExame();
+                agend.removeLinhaDoArquivo("arquivos/agendamentos_exames", cancelarExame( ((AgendamentoExame)lstExames.getSelectedValue()) ) );
                 JOptionPane.showMessageDialog(null, "Consulta cancelada com sucesso");
                 atualizarLista();
                 
