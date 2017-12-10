@@ -5,6 +5,9 @@
  */
 package clinicasaracura.layout;
 
+import clinicasaracura.modelo.Agendamento;
+import clinicasaracura.modelo.AgendamentoConsulta;
+import clinicasaracura.modelo.Cliente;
 import clinicasaracura.modelo.Exame;
 import clinicasaracura.registro.AgendamentoConsultaRegistro;
 import clinicasaracura.registro.ExameRegistro;
@@ -21,6 +24,7 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -34,15 +38,11 @@ import javax.swing.event.ListSelectionListener;
 public class PainelCancelarConsulta extends JPanel{
     
     private TelaCancelarAgendamento telaPai;
-    private JTextField txtNomeCliente;
-    private JButton btnBuscarExame;
     private JButton btnConfirmarExame;
-    private JLabel lblNomeCliente;
     private JLabel lblSelecionarExames;
     private JLabel lblNenhumResultado;
     private JTextArea txtInfoConsultas;
     private JList lstConsultas;
-    private JPanel pnlBusca;
     private JPanel pnlBotoes;
     private AgendamentoConsultaRegistro regAgendamentoConsultas;
     
@@ -58,25 +58,19 @@ public class PainelCancelarConsulta extends JPanel{
         setBorder(BorderFactory.createTitledBorder("Consulta")); 
         setLayout(layout);
         
-        txtNomeCliente = new JTextField(20);
-        lblNomeCliente = new JLabel("Nome do cliente:");
+       
         lblSelecionarExames = new JLabel("Selecione uma consulta para cancelar:");
         lblNenhumResultado = new JLabel("Nenhum resultado encontrado");
         txtInfoConsultas = new JTextArea();
-        btnBuscarExame = new JButton("Buscar");
-        btnConfirmarExame = new JButton("Confirmar Exame");
+        btnConfirmarExame = new JButton("Cancelar Consulta");
         
         lblNenhumResultado.setVisible(false);
         
 
         
-        configurarListaExames();
+        configurarListaConsultas();
         setarAcoesBotoes();
         
-        pnlBusca = new JPanel();
-        pnlBusca.add(lblNomeCliente);
-        pnlBusca.add(txtNomeCliente);
-        pnlBusca.add(btnBuscarExame);
         
         pnlBotoes = new JPanel();
         pnlBotoes.add(btnConfirmarExame);        
@@ -85,7 +79,6 @@ public class PainelCancelarConsulta extends JPanel{
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(pnlBusca)
                         .addComponent(lblNenhumResultado)
                         .addComponent(lblSelecionarExames)
                         .addComponent(lstConsultas)
@@ -98,8 +91,6 @@ public class PainelCancelarConsulta extends JPanel{
  
         layout.setVerticalGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(pnlBusca))
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lblNenhumResultado))
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lblSelecionarExames))
@@ -111,7 +102,6 @@ public class PainelCancelarConsulta extends JPanel{
                 .addComponent(pnlBotoes))
         );
         
-        add(pnlBusca);
         add(lblNenhumResultado);
         add(lblSelecionarExames);
         add(lstConsultas);
@@ -119,15 +109,17 @@ public class PainelCancelarConsulta extends JPanel{
         add(pnlBotoes);
     }
     
-    private void configurarListaExames(){
-        lstConsultas = new JList(new Vector<AgendamentoConsultaRegistro>(regAgendamentoConsultas.getListaRegistros()));
+    private void configurarListaConsultas(){
+        lstConsultas = new JList(new Vector<AgendamentoConsulta>(regAgendamentoConsultas.getListaRegistros()));
         lstConsultas.setVisibleRowCount(10);
         lstConsultas.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (renderer instanceof JLabel && value instanceof Exame) {
-                    ((JLabel) renderer).setText(((Exame) value).getNome());
+                if (renderer instanceof JLabel && value instanceof AgendamentoConsulta) {
+                    String texto = new String();
+                    texto = "Dia: " + Integer.toString(  ((AgendamentoConsulta) value).getDia() );
+                    ((JLabel) renderer).setText(  texto ) ;
                 }
                 return renderer;
             }
@@ -137,49 +129,43 @@ public class PainelCancelarConsulta extends JPanel{
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if(lstConsultas.getSelectedValue() != null){
-                    txtInfoConsultas.setText(((Exame)lstConsultas.getSelectedValue()).toString());
+                    String texto = new String();
+                    texto = "Dia: " + Integer.toString(  ((AgendamentoConsulta)lstConsultas.getSelectedValue()).getDia() ) /* + 
+                            "\nHorário: " + ((AgendamentoConsulta)lstConsultas.getSelectedValue()).getTextoHorario( ((AgendamentoConsulta)lstConsultas.getSelectedValue()).getHorario() )*/
+                            ;
+                    txtInfoConsultas.setText( texto );
                 }
             }
         });
     }
     
     public void setarAcoesBotoes(){
-        btnBuscarExame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                /*ArrayList<Exame> result = regAgendamentoConsultas.buscarPorNome(txtNomeCliente.getText());
-                if(result.isEmpty()){
-                    lblNenhumResultado.setVisible(true);
-                    regAgendamentoConsultas.setVisible(false);
-                }
-                else{
-                    regAgendamentoConsultas.setListData(new Vector<Exame>(result));
-                    lblNenhumResultado.setVisible(false);
-                    regAgendamentoConsultas.setVisible(true);
-                }*/
-            }
-        });
-        
         
         btnConfirmarExame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*if(lstExames.getSelectedValue() != null){
-                    telaPai.confirmarCliente(((Exame)regExames.getSelectedValue()));
+                
+                Object[] options = {"Sim", "Não"};
+                
+                if ( JOptionPane.showOptionDialog(null, "Você quer cancelar essa consulta?",
+                    "Cancelar Consulta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                     null, options, options[0]) == 0 ){
+                
+                    telaPai.removeLinhaDoArquivo("arquivos/agendamentos_consultas", cancelarConsulta(((AgendamentoConsulta)lstConsultas.getSelectedValue())) );
+                    JOptionPane.showMessageDialog(null, "Consulta cancelada com sucesso");
+                    
+                    
                 }
-                else{
-                    JOptionPane.showMessageDialog(null, "Selecione um dos clientes na lista",
-                        "Erro", JOptionPane.ERROR_MESSAGE);
-                }*/
+                else
+                    JOptionPane.showMessageDialog(null, "Operação Cancelada");
+                
+                
             }
         });
     }
     
     public void setarHabilitado(boolean status){
-        txtNomeCliente.setEnabled(status);
-        btnBuscarExame.setEnabled(status);
         btnConfirmarExame.setEnabled(status);
-        lblNomeCliente.setEnabled(status);
         lblSelecionarExames.setEnabled(status);
         lblNenhumResultado.setEnabled(status);
         txtInfoConsultas.setEnabled(status);
@@ -187,6 +173,26 @@ public class PainelCancelarConsulta extends JPanel{
     }
     
     
-   
+    private String cancelarConsulta (AgendamentoConsulta ConsAgend){
+        
+        String Texto = new String();
+        
+        Texto = Integer.toString( ConsAgend.getDia() ) + ";" + Integer.toString( ConsAgend.getHorario() ) + ";" 
+                + Integer.toString( ConsAgend.getCliente().getId() ) + ";" + Integer.toString( ConsAgend.getTipo() )
+                + ";" + Integer.toString( ConsAgend.getMedico().getId() ) ;
+        
+        return Texto;
+    }
     
+    
+   /*private void filtraLista( Cliente cliente ) {
+                
+                JList Result = new JList(new Vector<AgendamentoConsulta>());
+        
+                for (int i = 0; i < lstConsultas.getModel().getSize(); i++ ){
+                    if( (AgendamentoConsulta)lstConsultas   )
+                }
+                
+            }
+    */
 }

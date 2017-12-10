@@ -90,7 +90,7 @@ public class ClienteRegistro extends Registro {
     public ArrayList<Cliente> buscarPorNome(String nome){
         ArrayList<Cliente> result = new ArrayList();
         for(int i=0;i<lista.size();i++){
-            if(((Cliente)lista.get(i)).getNome().contains(nome)){
+            if(((Cliente)lista.get(i)).getNome().toLowerCase().contains(nome.toLowerCase())){
                 result.add((Cliente)lista.get(i));
             }
         }

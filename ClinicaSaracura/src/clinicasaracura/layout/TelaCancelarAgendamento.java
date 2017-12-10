@@ -20,6 +20,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -34,9 +41,12 @@ import javax.swing.JRadioButton;
  */
 public class TelaCancelarAgendamento {
    
+    private Cliente cliente; 
+    
     private FrameSistema frame;
     TelaPrincipal telaPrincipal;
 
+    private PainelClienteCancelCons pnlCliente;
     private PainelCancelarConsulta pnlConsulta;
     private PainelCancelarExame pnlExame;
   
@@ -55,12 +65,15 @@ public class TelaCancelarAgendamento {
     AgendamentoExameRegistro regAgendamentoExames;
     
     
-    public TelaCancelarAgendamento(TelaPrincipal telaPrincipal,
+    public TelaCancelarAgendamento(TelaPrincipal telaPrincipal, ClienteRegistro regClientes,
+        EspecialidadeRegistro regEspecialidades,
         ExameRegistro regExames, MedicoRegistro regMedicos,
         AgendamentoConsultaRegistro regAgendamentoConsultas,
         AgendamentoExameRegistro regAgendamentoExames) {
         
         this.telaPrincipal = telaPrincipal;
+        
+        
         
         this.regAgendamentoConsultas = regAgendamentoConsultas;
         this.regAgendamentoExames = regAgendamentoExames;
@@ -72,11 +85,12 @@ public class TelaCancelarAgendamento {
         
         btnCancelar = new JButton("Cancelar");
         
+        pnlCliente = new PainelClienteCancelCons(this, regClientes);
         pnlConsulta = new PainelCancelarConsulta(this, regAgendamentoConsultas);
         pnlExame = new PainelCancelarExame(this, regAgendamentoExames);
         
         pnlAtendimento = new JPanel();
-        pnlAtendimento.setBorder(BorderFactory.createTitledBorder("Atendimento"));
+        pnlAtendimento.setBorder(BorderFactory.createTitledBorder("Cancelamento"));
         lblAtendimento = new JLabel("Escolha o tipo de atendimento: ");
         rbConsulta = new JRadioButton("Consulta");
         rbExame = new JRadioButton("Exame");
@@ -135,11 +149,19 @@ public class TelaCancelarAgendamento {
         
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.PAGE_START;
-        c.fill = GridBagConstraints.NORTH;
+        c.fill = GridBagConstraints.VERTICAL;
         c.gridx = 0;
         c.gridy = 0;
         c.weighty = 0;
+        frame.add(pnlCliente, c);
+        
+        
+        
+        c.gridx = 1;
+        c.gridy = 0;
+        c.weighty = 0;
         frame.add(pnlAtendimento, c);
+        
         
         
         c.fill = GridBagConstraints.CENTER;
@@ -205,4 +227,63 @@ public class TelaCancelarAgendamento {
         frame.dispose();
     }
     
+      public void confirmarCliente(Cliente cliente){
+          this.cliente = cliente;
+          pnlConsulta.atualizarLista(cliente);
+      }
+      
+      
+      public void removeLinhaDoArquivo(String file, String lineToRemove) {
+
+    try {
+
+      File inFile = new File(file);
+
+      if (!inFile.isFile()) {
+        System.out.println("Parametro nao e um arquivo");
+        return;
+      }
+
+      //Construct the new file that will later be renamed to the original filename.
+      File tempFile = new File(inFile.getAbsolutePath() + ".tmp");
+
+      BufferedReader br = new BufferedReader(new FileReader(file));
+      PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+
+      String line = null;
+
+      //Read from the original file and write to the new
+      //unless content matches data to be removed.
+      while ((line = br.readLine()) != null) {
+
+        if (!line.trim().equals(lineToRemove)) {
+
+          pw.println(line);
+          pw.flush();
+        }
+      }
+      pw.close();
+      br.close();
+
+      //Delete the original file
+      if (!inFile.delete()) {
+        System.out.println("Could not delete file");
+        return;
+      }
+
+      //Rename the new file to the filename the original file had.
+      if (!tempFile.renameTo(inFile))
+        System.out.println("Could not rename file");
+
+    }
+    catch (FileNotFoundException ex) {
+      ex.printStackTrace();
+    }
+    catch (IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+      
+      
+      
 }

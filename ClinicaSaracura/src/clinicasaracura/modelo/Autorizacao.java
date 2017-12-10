@@ -5,6 +5,8 @@
  */
 package clinicasaracura.modelo;
 
+import clinicasaracura.registro.AutorizacaoRegistro;
+import clinicasaracura.registro.Registro;
 import java.util.Random;
 
 
@@ -13,11 +15,13 @@ public class Autorizacao {
     private boolean autorizacao;
     private int cortesia;
     private int convenio;
+    private AutorizacaoRegistro regAutorizacao;
     
     public Autorizacao(){
+        regAutorizacao = new AutorizacaoRegistro();
         this.autorizacao = false;
-        this.cortesia = 0;
-        this.convenio = 0;
+        this.cortesia = regAutorizacao.getQuantidadeCortesia();
+        this.convenio = regAutorizacao.getQuantidadeConvenio();
     }
     
     public boolean autorizaDinheiro(){
@@ -31,6 +35,9 @@ public class Autorizacao {
     public boolean autorizaCortesia(){
         if (this.cortesia == 0 || this.cortesia % 5 != 0)
             this.autorizacao = true;
+        
+        regAutorizacao.aumentaQuantidadeCortesia();
+        regAutorizacao.salvar();
         
         return this.autorizacao;
     }
@@ -53,6 +60,10 @@ public class Autorizacao {
         else
             if (rand.nextInt(2) == 1)
                 this.autorizacao = true;
+        
+
+        regAutorizacao.aumentaQuantidadeConvenio();
+        regAutorizacao.salvar();
         
         return this.autorizacao;
     }

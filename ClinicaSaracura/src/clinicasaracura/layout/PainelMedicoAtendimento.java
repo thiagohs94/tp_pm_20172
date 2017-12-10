@@ -41,6 +41,7 @@ public class PainelMedicoAtendimento extends JPanel{
     private JLabel lblNomeEspecialidade;
     private JLabel lblSelecionarMedico;
     private JLabel lblNenhumResultado;
+    private JLabel lblInfoMedico;
     private JTextArea txtInfoMedico;
     private JList lstMedicos;
     private JPanel pnlBusca;
@@ -68,6 +69,7 @@ public class PainelMedicoAtendimento extends JPanel{
         lblNomeEspecialidade = new JLabel("Especialidade:");
         lblSelecionarMedico = new JLabel("Selecione um médico para realizar um agendamento:");
         lblNenhumResultado = new JLabel("Nenhum resultado encontrado");
+        lblInfoMedico = new JLabel("Informações do Médico:");
         txtInfoMedico = new JTextArea();
         btnBuscarMedico = new JButton("Buscar");
         btnConfirmarMedico = new JButton("Confirmar Médico");
@@ -95,6 +97,7 @@ public class PainelMedicoAtendimento extends JPanel{
                         .addComponent(lblNenhumResultado)
                         .addComponent(lblSelecionarMedico)
                         .addComponent(lstMedicos)
+                        .addComponent(lblInfoMedico)
                         .addComponent(txtInfoMedico)
                         .addComponent(pnlBotoes)
                     )
@@ -112,6 +115,8 @@ public class PainelMedicoAtendimento extends JPanel{
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lstMedicos))
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblInfoMedico))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(txtInfoMedico))
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(pnlBotoes))
@@ -121,6 +126,7 @@ public class PainelMedicoAtendimento extends JPanel{
         add(lblNenhumResultado);
         add(lblSelecionarMedico);
         add(lstMedicos);
+        add(lblInfoMedico);
         add(txtInfoMedico);
         add(pnlBotoes);
     }
@@ -157,7 +163,9 @@ public class PainelMedicoAtendimento extends JPanel{
         lstMedicos.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                txtInfoMedico.setText(((Medico)lstMedicos.getSelectedValue()).toString());
+                if(lstMedicos.getSelectedValue() != null){
+                    txtInfoMedico.setText(((Medico)lstMedicos.getSelectedValue()).toString());
+                }
             }
         });
     }
@@ -202,6 +210,7 @@ public class PainelMedicoAtendimento extends JPanel{
         lblNomeEspecialidade.setEnabled(status);
         lblSelecionarMedico.setEnabled(status);
         lblNenhumResultado.setEnabled(status);
+        lblInfoMedico.setEnabled(status);
         txtInfoMedico.setEnabled(status);
         lstMedicos.setEnabled(status);
     }

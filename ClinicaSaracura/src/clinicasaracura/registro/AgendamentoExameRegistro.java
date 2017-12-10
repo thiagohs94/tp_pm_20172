@@ -92,4 +92,6 @@ public class AgendamentoExameRegistro extends Registro{
         return null;
     }
     
+    
+    
 }

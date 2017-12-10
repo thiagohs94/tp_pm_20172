@@ -5,6 +5,8 @@
  */
 package clinicasaracura.modelo;
 
+import java.util.ArrayList;
+
 public class AgendamentoExame extends Agendamento{
     private Exame exame;
     
@@ -24,4 +26,7 @@ public class AgendamentoExame extends Agendamento{
     public void setExame(Exame exame) {
         this.exame = exame;
     }
+    
+    
+    
 }

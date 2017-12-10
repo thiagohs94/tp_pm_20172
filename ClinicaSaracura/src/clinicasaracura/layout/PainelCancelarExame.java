@@ -5,6 +5,8 @@
  */
 package clinicasaracura.layout;
 
+import clinicasaracura.modelo.AgendamentoExame;
+import clinicasaracura.modelo.Cliente;
 import clinicasaracura.modelo.Exame;
 import clinicasaracura.registro.AgendamentoExameRegistro;
 import clinicasaracura.registro.ExameRegistro;
@@ -33,15 +35,11 @@ import javax.swing.event.ListSelectionListener;
 public class PainelCancelarExame extends JPanel {
     
     private TelaCancelarAgendamento telaPai;
-    private JTextField txtNomeCliente;
-    private JButton btnBuscarExame;
     private JButton btnConfirmarExame;
-    private JLabel lblNomeCliente;
     private JLabel lblSelecionarExames;
     private JLabel lblNenhumResultado;
     private JTextArea txtInfoExame;
     private JList lstExames;
-    private JPanel pnlBusca;
     private JPanel pnlBotoes;
     private AgendamentoExameRegistro regAgendamentoExames;
     
@@ -57,13 +55,10 @@ public class PainelCancelarExame extends JPanel {
         setBorder(BorderFactory.createTitledBorder("Exame")); 
         setLayout(layout);
         
-        txtNomeCliente = new JTextField(20);
-        lblNomeCliente = new JLabel("Nome do cliente:");
         lblSelecionarExames = new JLabel("Selecione um exame para cancelar:");
         lblNenhumResultado = new JLabel("Nenhum resultado encontrado");
         txtInfoExame = new JTextArea();
-        btnBuscarExame = new JButton("Buscar");
-        btnConfirmarExame = new JButton("Excluir Exame");
+        btnConfirmarExame = new JButton("Cancelar Exame");
         
         lblNenhumResultado.setVisible(false);
         
@@ -72,11 +67,6 @@ public class PainelCancelarExame extends JPanel {
         configurarListaExames();
         setarAcoesBotoes();
         
-        pnlBusca = new JPanel();
-        pnlBusca.add(lblNomeCliente);
-        pnlBusca.add(txtNomeCliente);
-        pnlBusca.add(btnBuscarExame);
-        
         pnlBotoes = new JPanel();
         pnlBotoes.add(btnConfirmarExame);        
         
@@ -84,7 +74,6 @@ public class PainelCancelarExame extends JPanel {
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(pnlBusca)
                         .addComponent(lblNenhumResultado)
                         .addComponent(lblSelecionarExames)
                         .addComponent(lstExames)
@@ -97,8 +86,6 @@ public class PainelCancelarExame extends JPanel {
  
         layout.setVerticalGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(pnlBusca))
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lblNenhumResultado))
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lblSelecionarExames))
@@ -110,7 +97,6 @@ public class PainelCancelarExame extends JPanel {
                 .addComponent(pnlBotoes))
         );
         
-        add(pnlBusca);
         add(lblNenhumResultado);
         add(lblSelecionarExames);
         add(lstExames);
@@ -119,14 +105,17 @@ public class PainelCancelarExame extends JPanel {
     }
     
     private void configurarListaExames(){
-        lstExames = new JList(new Vector<Exame>(regAgendamentoExames.getListaRegistros()));
+        
+        lstExames = new JList(new Vector<AgendamentoExame>(regAgendamentoExames.getListaRegistros()));
         lstExames.setVisibleRowCount(10);
         lstExames.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (renderer instanceof JLabel && value instanceof Exame) {
-                    ((JLabel) renderer).setText(((Exame) value).getNome());
+                if (renderer instanceof JLabel && value instanceof AgendamentoExame) {
+                    String texto = new String();
+                    texto = "Dia: " + Integer.toString(  ((AgendamentoExame) value).getDia() );
+                    ((JLabel) renderer).setText(  texto ) ;
                 }
                 return renderer;
             }
@@ -136,53 +125,59 @@ public class PainelCancelarExame extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if(lstExames.getSelectedValue() != null){
-                    txtInfoExame.setText(((Exame)lstExames.getSelectedValue()).toString());
+                    String texto = new String();
+                    texto = "Dia: " + Integer.toString(  ((AgendamentoExame)lstExames.getSelectedValue()).getDia() ) /*+ 
+                            "\nHorário: " + ((AgendamentoExame)lstExames.getSelectedValue()).getTextoHorario( ((AgendamentoExame)lstExames.getSelectedValue()).getHorario() ) */;
+                    txtInfoExame.setText( texto );
                 }
             }
         });
     }
     
     public void setarAcoesBotoes(){
-        btnBuscarExame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                /*ArrayList<Exame> result = regAgendamentoExames.buscarPorNome(txtNomeCliente.getText());
-                if(result.isEmpty()){
-                    lblNenhumResultado.setVisible(true);
-                    lstExames.setVisible(false);
-                }
-                else{
-                    lstExames.setListData(new Vector<Exame>(result));
-                    lblNenhumResultado.setVisible(false);
-                    lstExames.setVisible(true);
-                }*/
-            }
-        });
-        
         
         btnConfirmarExame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*if(lstExames.getSelectedValue() != null){
-                    telaPai.confirmarCliente(((Exame)regExames.getSelectedValue()));
+                
+                Object[] options = {"Sim", "Não"};
+                
+                if ( JOptionPane.showOptionDialog(null, "Você quer cancelar essa consulta?",
+                    "Cancelar Consulta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                     null, options, options[0]) == 0 ){
+                
+                telaPai.removeLinhaDoArquivo("arquivos/agendamentos_exames", cancelarExame( ((AgendamentoExame)lstExames.getSelectedValue()) ) );
+                JOptionPane.showMessageDialog(null, "Consulta cancelada com sucesso");
+                
+                    
                 }
-                else{
-                    JOptionPane.showMessageDialog(null, "Selecione um dos clientes na lista",
-                        "Erro", JOptionPane.ERROR_MESSAGE);
-                }*/
-            }
+                else
+                    JOptionPane.showMessageDialog(null, "Operação Cancelada");
+                
+                
+                
+                
+            }  
         });
     }
     
     public void setarHabilitado(boolean status){
-        txtNomeCliente.setEnabled(status);
-        btnBuscarExame.setEnabled(status);
         btnConfirmarExame.setEnabled(status);
-        lblNomeCliente.setEnabled(status);
         lblSelecionarExames.setEnabled(status);
         lblNenhumResultado.setEnabled(status);
         txtInfoExame.setEnabled(status);
         lstExames.setEnabled(status);
+    }
+    
+    private String cancelarExame (AgendamentoExame exameAgend){
+        
+        String Texto = new String();
+        
+        Texto = Integer.toString( exameAgend.getDia() ) + ";" + Integer.toString( exameAgend.getHorario() ) + ";" 
+                + Integer.toString( exameAgend.getCliente().getId() ) + ";" + Integer.toString( exameAgend.getTipo() )
+                + ";" + Integer.toString( exameAgend.getExame().getId() );
+        
+        return Texto;
     }
     
     

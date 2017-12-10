@@ -8,15 +8,12 @@ package clinicasaracura.layout;
 import clinicasaracura.modelo.Cliente;
 import clinicasaracura.registro.ClienteRegistro;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,15 +22,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class PainelClienteAgendamento extends JPanel{
-    private TelaAgendamento telaPai;
+/**
+ *
+ * @author wanderson
+ */
+public class PainelClienteCancelCons extends JPanel{
+    
+    private TelaCancelarAgendamento telaPai;
     private JTextField txtNomeCliente;
     private JButton btnBuscarCliente;
-    private JButton btnAddCliente;
     private JButton btnConfirmarCliente;
     private JLabel lblNomeCliente;
     private JLabel lblSelecionarCliente;
@@ -45,7 +45,7 @@ public class PainelClienteAgendamento extends JPanel{
     private JPanel pnlBotoes;
     private ClienteRegistro regClientes;
     
-    public PainelClienteAgendamento(TelaAgendamento telaPai, ClienteRegistro regClientes) {
+    public PainelClienteCancelCons(TelaCancelarAgendamento telaPai, ClienteRegistro regClientes) {
         super();
         this.regClientes = regClientes;
         this.telaPai = telaPai;
@@ -63,7 +63,6 @@ public class PainelClienteAgendamento extends JPanel{
         lblInfoCliente = new JLabel("Informações do Cliente:");
         txtInfoCliente = new JTextArea();
         btnBuscarCliente = new JButton("Buscar");
-        btnAddCliente = new JButton("Adicionar novo Cliente");
         btnConfirmarCliente = new JButton("Confirmar Cliente");
         
         lblNenhumResultado.setVisible(false);
@@ -80,7 +79,6 @@ public class PainelClienteAgendamento extends JPanel{
         pnlBusca.add(btnBuscarCliente);
         
         pnlBotoes = new JPanel();
-        pnlBotoes.add(btnAddCliente);
         pnlBotoes.add(btnConfirmarCliente);        
         
         layout.setHorizontalGroup(layout.createSequentialGroup()
@@ -174,12 +172,6 @@ public class PainelClienteAgendamento extends JPanel{
             }
         });
         
-        btnAddCliente.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                telaPai.adicionarNovoCliente();
-            }
-        });
         
         btnConfirmarCliente.addActionListener(new ActionListener() {
             @Override
@@ -204,7 +196,6 @@ public class PainelClienteAgendamento extends JPanel{
         setEnabled(status);
         txtNomeCliente.setEnabled(status);
         btnBuscarCliente.setEnabled(status);
-        btnAddCliente.setEnabled(status);
         btnConfirmarCliente.setEnabled(status);
         lblNomeCliente.setEnabled(status);
         lblSelecionarCliente.setEnabled(status);
@@ -213,4 +204,6 @@ public class PainelClienteAgendamento extends JPanel{
         txtInfoCliente.setEnabled(status);
         lstClientes.setEnabled(status);
     }
+    
+    
 }

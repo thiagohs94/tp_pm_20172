@@ -93,4 +93,6 @@ public class AgendamentoConsultaRegistro extends Registro{
         }
         return null;
     }
+    
+    
 }
